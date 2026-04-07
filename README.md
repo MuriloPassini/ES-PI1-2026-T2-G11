@@ -29,7 +29,7 @@ Além disso, o sistema implementa:
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 - Python 3.14
 - MySQL
 - Biblioteca `mysql.connector`
