@@ -24,7 +24,7 @@ Além disso, o sistema implementa:
 - Pietro Eduardo
 - Cauã Zanluchi
 - Filipe Pierri
-- Bernardo
+- Bernardo Garcia
 - Gabriel André
 
 ---
