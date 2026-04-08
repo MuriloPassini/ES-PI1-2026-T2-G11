@@ -27,7 +27,7 @@ def validar_candidato():
     if resultado is None:
         print('Dados inválidos. Acesso negado.')
     elif mesario == 'S':
-        if resultado[0] == 'S':
+        if resultado[0] == '1':
             print('Bem-vindo, mesário! Você pode acessar as funções de mesário.')
         else:
             print('Acesso negado. Você não é um mesário registrado.')
