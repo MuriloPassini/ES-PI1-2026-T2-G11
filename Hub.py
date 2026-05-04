@@ -1,5 +1,5 @@
 from Management import iniciar_management
-from Voting import iniciar_votacao
+from busca_eleitores import iniciar_votacao
 def iniciar_hub():
     print('='*15,'H U B','='*15)
     print(f'{"Bem-vindo ao Hub de Gerenciamento e Votação!":^35}')
