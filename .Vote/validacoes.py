@@ -37,7 +37,7 @@ def validacaotitulo(titulo):
 
     return digito1 == numeros[10] and digito2 == numeros[11]
 
-#Validação cpf trabalho PI
+#Validação cpf
 cpf = 0
 def validacaocpf():
     #Essa primeira parte verifica se tem 11 digitos, se é apenas digitos e se não sao numeros repetidos
