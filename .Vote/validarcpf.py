@@ -5,8 +5,9 @@ def validacaocpf():
     if len(cpf)!=11 or not cpf.isdigit() or len(set(cpf))==1:
         return False
     else:
+        digitoscpf=[]
         for d in cpf:
-            digitoscpf=int(d)
+            digitoscpf.append(int(d))
         #Validacao do primeiro digito
         soma1=0
         dg=10 # Quantidade de digitos para a multiplicação
@@ -39,26 +40,3 @@ def validacaocpf():
             return True
         else:
             return False
- 
-        
-        
-
-
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
-
-
-
-
