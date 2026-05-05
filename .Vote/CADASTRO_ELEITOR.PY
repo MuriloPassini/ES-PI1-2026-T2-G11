@@ -1,7 +1,7 @@
 import mysql.connector
 from banco import conectar_bd
 from validacoes import validacaotitulo, validacaocpf
-from randomkeys import chave_acesso
+from chave_acesso import chave_acesso
 
 
 def cadastrar_eleitor():
@@ -27,7 +27,7 @@ def cadastrar_eleitor():
         print(f'GUARDE SUA CHAVE DE ACESSO!')
         print('='*35)
         cursor.execute(
-            'INSERT INTO Eleitores (Nome Completo, CPF, Titulo de eleitor, Chave de acesso, Mesario) VALUES (%s, %s, %s, %s, %s)',
+            'INSERT INTO Eleitores (Nome_Completo, CPF, Titulo_de_eleitor, Chave_de_acesso, Mesario) VALUES (%s, %s, %s, %s, %s)',
             (nome, cpf, titulo, chave, mesario)
         )
         connect.commit()
