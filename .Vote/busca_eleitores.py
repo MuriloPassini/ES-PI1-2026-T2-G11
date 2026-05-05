@@ -1,3 +1,5 @@
+# manutenção feita por cauã
+
 from banco import conectar_bd
 from busca_eleitores import iniciar_votacao
 
