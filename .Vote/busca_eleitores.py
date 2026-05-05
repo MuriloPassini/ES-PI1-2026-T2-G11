@@ -1,7 +1,6 @@
 # manutenção feita por cauã
 
 from banco import conectar_bd
-from busca_eleitores import iniciar_votacao
 
 def iniciar_login():
     print('='*9,'L O G I N','='*9)
