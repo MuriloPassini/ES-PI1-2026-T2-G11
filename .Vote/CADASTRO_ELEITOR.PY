@@ -1,7 +1,7 @@
 import mysql.connector
 from banco import conectar_bd
 from validacoes import validacaotitulo, validacaocpf
-from randomkeys import chave_acesso
+from chave_acesso import chave_acesso
 
 
 def cadastrar_eleitor():
