@@ -27,7 +27,7 @@ def cadastrar_eleitor():
         print(f'GUARDE SUA CHAVE DE ACESSO!')
         print('='*35)
         cursor.execute(
-            'INSERT INTO Eleitores (Nome Completo, CPF, Titulo de eleitor, Chave de acesso, Mesario) VALUES (%s, %s, %s, %s, %s)',
+            'INSERT INTO Eleitores (Nome_Completo, CPF, Titulo_de_eleitor, Chave_de_acesso, Mesario) VALUES (%s, %s, %s, %s, %s)',
             (nome, cpf, titulo, chave, mesario)
         )
         connect.commit()
