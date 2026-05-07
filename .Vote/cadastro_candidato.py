@@ -50,37 +50,85 @@ def cadastrar():
                         print("Erro:", erro)
 
 def buscar():
-        'Fazer o buscar ainda'
+        print('Escolha uma opção para buscar o(s) candidato(s): ')
+        print('1. Nome')
+        print('2. Número')
+        print('3. Partido')
+        opcao=int(input('Digite sua opção: '))
+        if opcao==1:
+                nome_buscar=input("Digite o nome do candidato: ")
+                sql = "SELECT nome, numero, partido FROM candidatos WHERE nome = %s"
+                cursor.execute(sql, (nome_buscar,))
+                resultado = cursor.fetchall()
+                if resultado:
+                        print("="*30)
+                        print(f"Nome     : {resultado[0]}")
+                        print(f"Número   : {resultado[1]}")
+                        print(f"Partido  : {resultado[2]}")
+                        print("="*30)
+                else:
+                        print("Candidato não encontrado.")
+        elif opcao==2:
+                numero_busca=input('Digite o número do candidato: ')
+                sql="select nome, numero, partido from candidatos where numero=%s"
+                cursor.execute(sql,(numero_busca,))
+                resultado=cursor.fetchall()
+                if resultado:
+                        print("="*30)
+                        print(f"Nome     : {resultado[0]}")
+                        print(f"Número   : {resultado[1]}")
+                        print(f"Partido  : {resultado[2]}")
+                        print("="*30)
+                else:
+                        print("Candidato não encontrado.")
 
+        elif opcao==3:
+                partido_buscar=input('Digite o partido do candidatos que deseja buscar: ')
+                sql="select nome, numero, partido from candidatos where partido=%s"
+                cursor.execute(sql,(partido_buscar,))
+                resultado=cursor.fetchall()
+                if resultado:
+                        print("="*30)
+                        print(f"Nome     : {resultado[0]}")
+                        print(f"Número   : {resultado[1]}")
+                        print(f"Partido  : {resultado[2]}")
+                        print("="*30)
+                else:
+                        print("Candidato não encontrado.")
+        else:
+                print('Opção inválida!')
+
+
+                
 def deletar():
         'Fazer o deletar(servirá para o eleitor tambémx)'
 
 #======================Menuzão=================================================
 executando=True
 while executando:
-        print("\n" + "="*30)
-        print("   SISTEMA DE CANDIDATOS")
-        print("="*30)
-        print("1 - Cadastrar")
-        print("2 - Listar")
-        print("3 - Buscar")
-        print("4 - Deletar")
-        print("5 - Sair")
-        opcao = input("Escolha: ")
+                print("\n" + "="*30)
+                print("   SISTEMA DE CANDIDATOS")
+                print("="*30)
+                print("1 - Cadastrar")
+                print("2 - Listar")
+                print("3 - Buscar")
+                print("4 - Deletar")
+                print("5 - Sair")
+                opcao = input("Escolha: ")
 
-        if opcao == "1":
-                cadastrar()
-        elif opcao == "2":
-                listar()
-        elif opcao == "3":
-                buscar()
-        elif opcao == "4":
-                deletar()
-        elif opcao == "5":
-                print("Saindo...")
-                executando = False
-        else:
-                print("Opção inválida!")
+                if opcao == "1":
+                        cadastrar()
+                elif opcao == "2":
+                        listar()
+                elif opcao == "3":
+                        buscar()
+                elif opcao == "4":
+                        deletar()
+                elif opcao == "5":
+                        print("Saindo...")
+                        executando = False
+                else:
+                        print("Opção inválida!")
                               
 cursor.close()
 conexao.close()
