@@ -98,11 +98,6 @@ def buscar():
         else:
                 print('Opção inválida!')
 
-
-                
-def deletar():
-        'Fazer o deletar(servirá para o eleitor tambémx)'
-
 #======================Menuzão=================================================
 executando=True
 while executando:
@@ -112,8 +107,7 @@ while executando:
                 print("1 - Cadastrar")
                 print("2 - Listar")
                 print("3 - Buscar")
-                print("4 - Deletar")
-                print("5 - Sair")
+                print("4 - Sair")
                 opcao = input("Escolha: ")
 
                 if opcao == "1":
@@ -123,8 +117,6 @@ while executando:
                 elif opcao == "3":
                         buscar()
                 elif opcao == "4":
-                        deletar()
-                elif opcao == "5":
                         print("Saindo...")
                         executando = False
                 else:
