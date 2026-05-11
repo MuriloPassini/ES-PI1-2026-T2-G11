@@ -2,10 +2,12 @@ import mysql.connector
 
 
 def conectar_bd():
-    connect = mysql.connector.connect(
-        host="BD-ACD",
-        user="BD250226129",
-        password="Gcpop08",
-        database="Candidato"
+    conexao = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="198765432AbGF",
+        database="testes"
     )
-    return connect
+
+    cursor = conexao.cursor()
+    return conexao, cursor

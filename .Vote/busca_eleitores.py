@@ -2,8 +2,9 @@
 
 from banco import conectar_bd
 
+
 def iniciar_login():
-    print('='*9,'L O G I N','='*9)
+    print('='*9, 'L O G I N', '='*9)
     # Validação do eleitor, conferência do título de eleitor, CPF e chave de acesso, além da verificação se o eleitor é mesário ou não.
     connection = conectar_bd()
     cursor = connection.cursor()
@@ -32,9 +33,6 @@ def iniciar_login():
             print('Acesso negado. Você não é um mesário registrado.')
     else:
         print('Usuário validado com sucesso! Você pode votar normalmente.')
-        iniciar_votacao()
+        # iniciar votação aqui
     cursor.close()
     connection.close()
-
-    
-

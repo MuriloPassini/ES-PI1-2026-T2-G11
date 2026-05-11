@@ -1,6 +1,6 @@
 import mysql.connector
 from banco import conectar_bd
-from validacoes import validacaotitulo, validacaocpf
+from validacoes import validar_titulo, validacaocpf
 from chave_acesso import chave_acesso
 
 
@@ -11,7 +11,7 @@ def cadastrar_eleitor():
     titulo = str(input('Insira o título de eleitor do mesmo: '))
     cpf = str(input('Insira o CPF do eleitor: '))
     mesario = str(input('O eleitor é mesário? S/N: ')).upper()
-    titulo_valido = validacaotitulo(titulo)
+    titulo_valido = validar_titulo(titulo)
     cpf_valido = validacaocpf(cpf)
     chave = chave_acesso(nome)
 
