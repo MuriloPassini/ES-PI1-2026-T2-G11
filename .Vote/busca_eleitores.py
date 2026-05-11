@@ -1,5 +1,3 @@
-# manutenção feita por cauã
-
 from banco import conectar_bd
 
 
