@@ -98,6 +98,8 @@ def buscar():
         else:
                 print('Opção inválida!')
 
+def deletarcandi():
+
 #======================Menuzão=================================================
 executando=True
 while executando:
@@ -107,7 +109,8 @@ while executando:
                 print("1 - Cadastrar")
                 print("2 - Listar")
                 print("3 - Buscar")
-                print("4 - Sair")
+                print("4 - Deletar")
+                print("5 - Sair")
                 opcao = input("Escolha: ")
 
                 if opcao == "1":
@@ -116,7 +119,9 @@ while executando:
                         listar()
                 elif opcao == "3":
                         buscar()
-                elif opcao == "4":
+                elif opcao=='4':
+                        deletarcandi()
+                elif opcao == "5":
                         print("Saindo...")
                         executando = False
                 else:
