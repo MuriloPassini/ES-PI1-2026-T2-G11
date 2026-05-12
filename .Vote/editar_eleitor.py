@@ -3,20 +3,21 @@ from banco import conectar_bd
 
 
 def editar_eleitor():
-    conexao = conectar_bd()
-    cursor = conexao.cursor()
+    conexao, cursor = conectar_bd()
 
     mostrar_eleitores = input(
         'Mostrar todos os eleitores? S/N: ').strip().upper()
     if mostrar_eleitores == 'S':
-        cursor.execute('SELECT * FROM Eleitores;')
+        cursor.execute('SELECT * FROM eleitores;')
         eleitores = cursor.fetchall()
         for e in eleitores:
             print(f'Nome: {e[0]} | CPF: {e[1]} | Título: {e[2]}')
     # edições
+    nome_eleitor = input('Digite o eleitor o qual gostaria de editar:  ')
+
     cursor.execute(
         '''
-        SELECT nome, cpf, titulo FROM Eleitores WHERE nome = %s
+        SELECT nome, cpf, titulo FROM eleitores WHERE nome = %s
         ''',
         (nome_eleitor,)
     )
@@ -30,8 +31,6 @@ def editar_eleitor():
     nome_atual = eleitor[0]
     cpf_atual = eleitor[1]
     titulo_atual = eleitor[2]
-
-    nome_eleitor = input('Digite o eleitor o qual gostaria de editar:  ')
 
     novo_nome = input(
         'Digite o novo nome do eleitor\n\t(caso queira  manter o atual, apenas pressione enter):')
@@ -55,13 +54,13 @@ def editar_eleitor():
 
     cursor.execute(
         '''
-        UPDATE Eleitores
+        UPDATE eleitores
         SET nome = %s,
-        titulo  = %s
-        cpf = %s
+        cpf  = %s,
+        titulo = %s
         WHERE nome = %s
         ''',
-        (novo_nome, novo_titulo, novo_cpf, nome_eleitor)
+        (novo_nome, novo_cpf, novo_titulo, nome_eleitor)
     )
 
     conexao.commit()
