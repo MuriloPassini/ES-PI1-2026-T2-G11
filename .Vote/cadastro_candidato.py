@@ -99,7 +99,27 @@ def buscar():
                 print('Opção inválida!')
 
 def deletarcandi():
-
+        numero_busca=input("Digite o número do candidato que deseja excluir: ")
+        sql="select nome,numero partido where numero=%s"
+        cursor.execute(sql,(numero_busca,))
+        resultado=cursor.fetchone()
+        if resultado:
+                print('\nCandidato encontrado!')
+                print('='*30)
+                print(f'Nome: {resultado[0]}')
+                print(f'Número: {resultado[1]}')
+                print(f'Partido: {resultado[2]}')
+                print('='*30)
+                confirmar=input('Deseja confirmar? (s/n):').split().lower()
+                if confirmar=='s':
+                        sql_deletar='delete from candidatos where numero=%s'
+                        cursor.execute(sql_deletar,(numero_busca,))
+                        conexao.commit()
+                        print('\nCandidato deletado com sucesso!')
+                else:
+                        print('Operação cancelada!')
+        else:
+                print('Candidato não encontrado')
 #======================Menuzão=================================================
 executando=True
 while executando:
@@ -119,7 +139,7 @@ while executando:
                         listar()
                 elif opcao == "3":
                         buscar()
-                elif opcao=='4':
+                elif opcao == "3":
                         deletarcandi()
                 elif opcao == "5":
                         print("Saindo...")
