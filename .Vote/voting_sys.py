@@ -54,3 +54,19 @@ while confirmarnum == 0:
         continue
     else:
         confirmarnum += 1
+
+#gerar o numero do protocolo e pegar a data e hora atual
+protocolo = str(uuid.uuid4())
+data_hora = datetime.now()
+
+#salvar o voto no banco de dados
+cursor.execute("INSERT INTO votos (protocolo, titulo_eleitor, numero_candidato, data_hora) VALUES (%s, %s, %s, %s)", (protocolo, titulo_eleitor, numero_candidato, data_hora))
+cursor.execute("UPDATE eleitores SET ja_votou = TRUE WHERE titulo_eleitor = %s", (titulo_eleitor,))
+conn.commit()
+# Mostrar o protocolo para o eleitor
+print("")
+print("Voto confirmado com sucesso!")
+print("Seu numero de protocolo e:", protocolo)
+print("Data e hora do voto:", data_hora.strftime("%d/%m/%Y %H:%M:%S"))
+print("")
+print("O sistema sera encerrado automaticamente.")
