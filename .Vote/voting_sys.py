@@ -7,8 +7,8 @@ import uuid
 info_completa = 0
 while info_completa == 0:
     titulo_eleitor= input("Digite o título de eleitor: ")
-    cpf = input("Digite os 4 primeiros dígitos do CPF: "))
-    chave_de_acesso = input("Digite sua chave de acesso: "))
+    cpf = input("Digite os 4 primeiros dígitos do CPF: ")
+    chave_de_acesso = input("Digite sua chave de acesso: ")
     if titulo_eleitor != "" and cpf != "" and chave_de_acesso != "":
         info_completa += 1
 
@@ -62,7 +62,7 @@ data_hora = datetime.now()
 #salvar o voto no banco de dados
 cursor.execute("INSERT INTO votos (protocolo, titulo_eleitor, numero_candidato, data_hora) VALUES (%s, %s, %s, %s)", (protocolo, titulo_eleitor, numero_candidato, data_hora))
 cursor.execute("UPDATE eleitores SET ja_votou = TRUE WHERE titulo_eleitor = %s", (titulo_eleitor,))
-conn.commit()
+connect.commit()
 # Mostrar o protocolo para o eleitor
 print("")
 print("Voto confirmado com sucesso!")
