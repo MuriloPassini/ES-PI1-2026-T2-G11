@@ -1,7 +1,7 @@
 
 
 def iniciar_management():
-    print('='*15,'G E R E N C I A M E N T O','='*15)
+    print('='*15, 'G E R E N C I A M E N T O', '='*15)
     print(f'{"Área administrativa acessada!":^57}')
     print(f'{'\t1. Cadastrar eleitor':^55}')
     print(f'{'\t2. Editar eleitor':^51}')
@@ -13,11 +13,11 @@ def iniciar_management():
             from cadastro_eleitor import cadastrar_eleitor
             cadastrar_eleitor()
         case '2':
-            from busca_eleitores import iniciar_login
-            iniciar_login()
+            from editar_eleitor import editar_eleitor
+            editar_eleitor()
         case '3':
-            from cadastro_candidato import cadastro_candidato
-            cadastro_candidato()
+            from cadastro_candidato import cadastrar
+            cadastrar()
         case '4':
             print('Função de mesário em desenvolvimento. Aguarde atualizações futuras.')
         case _:
