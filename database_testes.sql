@@ -1,0 +1,29 @@
+CREATE DATABASE IF NOT EXISTS testes;
+USE testes;
+
+CREATE TABLE IF NOT EXISTS Eleitores (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    Nome_Completo VARCHAR(150) NOT NULL,
+    CPF VARCHAR(11) NOT NULL UNIQUE,
+    Titulo_de_eleitor VARCHAR(12) NOT NULL UNIQUE,
+    Chave_de_acesso VARCHAR(20) NOT NULL,
+    Mesario CHAR(1) NOT NULL DEFAULT 'N',
+    Ja_votou BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+CREATE TABLE IF NOT EXISTS candidatos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(150) NOT NULL,
+    numero INT NOT NULL UNIQUE,
+    partido VARCHAR(80) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS votos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    protocolo VARCHAR(36) NOT NULL UNIQUE,
+    titulo_eleitor VARCHAR(12) NOT NULL,
+    numero_candidato INT NOT NULL,
+    data_hora DATETIME NOT NULL,
+    FOREIGN KEY (titulo_eleitor) REFERENCES Eleitores(Titulo_de_eleitor),
+    FOREIGN KEY (numero_candidato) REFERENCES candidatos(numero)
+);
