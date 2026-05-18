@@ -1,96 +1,61 @@
-# Função para abrir a votação
+from banco import conectar_bd, fechar_bd
+
+
 def abrir_votacao():
-    # Faz a conexão com o banco e cria o cursor
     conexao, cursor = conectar_bd()
-    print('=' * 10, 'ABERTURA DA VOTAÇÃO', '=' * 10)
-    # Dados do mesário para autenticação
-    titulo = input('Digite o seu título de eleitor: ')
-    cpf = input('Digite os 4 primeiros dígitos do seu CPF: ')
-    while len(cpf) != 4:
-        print('ERRO!!! Digite apenas os 4 primeiros números do CPF.')
-        cpf = input('Digite os 4 primeiros dígitos do seu CPF: ')
 
-    chave = input('Digite a chave de acesso: ')
+    print("=" * 10, "ABERTURA DA VOTACAO", "=" * 10)
 
-    # SQL para verificar o mesário
-    sql = """
-    SELECT Mesario
-    FROM Eleitores
-    WHERE Titulo_de_eleitor = %s
-    AND SUBSTRING(CPF, 1, 4) = %s
-    AND Chave_de_acesso = %s
-    """
+    titulo = input("Digite o seu titulo de eleitor: ").strip()
+    cpf = input("Digite os 4 primeiros digitos do seu CPF: ").strip()
+    while not (cpf.isdigit() and len(cpf) == 4):
+        print("ERRO! Digite apenas os 4 primeiros numeros do CPF.")
+        cpf = input("Digite os 4 primeiros digitos do seu CPF: ").strip()
 
-    # Executa o SQL
-    cursor.execute(sql, (titulo, cpf, chave))
+    chave = input("Digite a chave de acesso: ").strip()
 
-    # Pega o resultado
+    cursor.execute(
+        """
+        SELECT Mesario
+        FROM Eleitores
+        WHERE Titulo_de_eleitor = %s
+          AND SUBSTRING(CPF, 1, 4) = %s
+          AND Chave_de_acesso = %s
+        """,
+        (titulo, cpf, chave)
+    )
     resultado = cursor.fetchone()
 
-    # Se não encontrar usuário
     if resultado is None:
-        print('\nERRO!!! Validação falhou.')
+        print("\nERRO! Validacao falhou.")
+        fechar_bd(conexao, cursor)
+        return False
 
-        cursor.close()
-        conexao.close()
-        return
+    if resultado[0] != "S":
+        print("\nERRO! Usuario nao esta cadastrado como mesario.")
+        fechar_bd(conexao, cursor)
+        return False
 
-    # Verifica se é mesário
-    if resultado[0] != 'S':
-        print('\nERRO!!! Usuário não está cadastrado como mesário.')
+    print("\nMesario autenticado com sucesso!")
+    print("\nRealizando Zeresima...")
 
-        cursor.close()
-        conexao.close()
-        return
-
-    # Autenticação concluída
-    print('\nMesário autenticado com sucesso!')
-
-    # Zerésima
-    print('\nRealizando Zerésima...')
-
-    # Remove todos os votos
     cursor.execute("DELETE FROM votos")
-
-    # Salva alteração no banco
+    cursor.execute("UPDATE Eleitores SET Ja_votou = FALSE")
     conexao.commit()
-    # Busca candidatos
-    cursor.execute("""
-    SELECT nome, numero
-    FROM candidatos
-    """)
+
+    cursor.execute("SELECT nome, numero FROM candidatos")
     candidatos = cursor.fetchall()
-    # Exibe candidatos
-    for candidato in candidatos:
-        print(f'Candidato: {candidato[0]} | Número: {candidato[1]}')
 
-    print('\nSistema liberado para votação!')
-    print('\n1 - Votar')
-    print('2 - Encerrar sistema')
-    # Fecha conexão
-    cursor.close()
-    conexao.close()
+    if candidatos:
+        for candidato in candidatos:
+            print(f"Candidato: {candidato[0]} | Numero: {candidato[1]}")
+    else:
+        print("Nenhum candidato cadastrado.")
 
-# TESTE DA FUNÇÃO
-abrir_votacao()
+    print("\nSistema liberado para votacao!")
+    fechar_bd(conexao, cursor)
+    return True
 
 
-
-
-
-
-#Código para conectar ao MySQL
-import mysql.connector
-
-def conectar_bd():
-
-    conexao = mysql.connector.connect(
-        host='localhost',
-        user='root',
-        password='123456',
-        database='sistema_votacao'
-    )
-
-    cursor = conexao.cursor()
-
-    return conexao, cursor
+if __name__ == "__main__":
+    abrir_votacao()

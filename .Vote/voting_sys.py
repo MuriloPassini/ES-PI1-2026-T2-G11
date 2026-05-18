@@ -1,72 +1,97 @@
-import mysql.connector
 from datetime import datetime
-import random
 import uuid
 
-#informações do usuário
-info_completa = 0
-while info_completa == 0:
-    titulo_eleitor= input("Digite o título de eleitor: ")
-    cpf = input("Digite os 4 primeiros dígitos do CPF: ")
-    chave_de_acesso = input("Digite sua chave de acesso: ")
-    if titulo_eleitor != "" and cpf != "" and chave_de_acesso != "":
-        info_completa += 1
+from banco import conectar_bd, fechar_bd
 
-#verificar banco
-cursor.execute("""
-SELECT * FROM eleitores
-WHERE titulo_eleitor = %s
-AND cpf_inicio = %s
-AND chave_acesso = %s
-""", (titulo_eleitor, cpf, chave_de_acesso))
 
-eleitor = cursor.fetchone()
+def votacao():
+    conexao, cursor = conectar_bd()
 
-if eleitor is None:
-    print("Dados inválidos!!!")
-    exit()
-if eleitor["ja_votou"] == True:
-    print("esse eleitor jaa realizou a votação!")
-    exit()
+    titulo_eleitor = input("Digite o titulo de eleitor: ").strip()
+    cpf_inicio = input("Digite os 4 primeiros digitos do CPF: ").strip()
+    chave_de_acesso = input("Digite sua chave de acesso: ").strip()
 
-#solicitação do numero do candidato
-confirmarnum = 0
-while confirmarnum == 0:
-    numero_candidato = int(input("Digite o numero do seu candidato: "))
+    if not titulo_eleitor or not cpf_inicio or not chave_de_acesso:
+        print("Todos os campos sao obrigatorios.")
+        fechar_bd(conexao, cursor)
+        return
 
-#consulta do candidato no banco de dados
-    cursor.execute("""
-    SELECT * FROM Candidatos
-    WHERE numcandidato = %s
-    """, (numero_candidato,))
+    cursor.execute(
+        """
+        SELECT Nome_Completo, Ja_votou
+        FROM Eleitores
+        WHERE Titulo_de_eleitor = %s
+          AND SUBSTRING(CPF, 1, 4) = %s
+          AND Chave_de_acesso = %s
+        """,
+        (titulo_eleitor, cpf_inicio, chave_de_acesso)
+    )
+    eleitor = cursor.fetchone()
 
-    Candidato = cursor.fetchone()
+    if eleitor is None:
+        print("Dados invalidos!")
+        fechar_bd(conexao, cursor)
+        return
 
-    if Candidato:
+    if eleitor[1]:
+        print("Esse eleitor ja realizou a votacao!")
+        fechar_bd(conexao, cursor)
+        return
+
+    numero_candidato = None
+    while numero_candidato is None:
+        entrada = input("Digite o numero do seu candidato: ").strip()
+        if not entrada.isdigit():
+            print("Numero invalido.")
+            continue
+
+        cursor.execute(
+            """
+            SELECT nome, numero, partido
+            FROM candidatos
+            WHERE numero = %s
+            """,
+            (entrada,)
+        )
+        candidato = cursor.fetchone()
+
+        if candidato is None:
+            print("Candidato nao encontrado.")
+            continue
+
         print("Candidato:")
-        print("Nome:", Candidato["nome_candidato"])
-        print("Número:", Candidato["numcandidato"])
-        print("Partido:", Candidato["partidocandidato"])
+        print("Nome:", candidato[0])
+        print("Numero:", candidato[1])
+        print("Partido:", candidato[2])
 
-    #confirmação de voto
-    confirmar = input("Deseja confirmar seu voto (S/N): ")
-    if confirmar.upper() == "N":
-        continue
-    else:
-        confirmarnum += 1
+        confirmar = input("Deseja confirmar seu voto (S/N): ").strip().upper()
+        if confirmar == "S":
+            numero_candidato = candidato[1]
 
-#gerar o numero do protocolo e pegar a data e hora atual
-protocolo = str(uuid.uuid4())
-data_hora = datetime.now()
+    protocolo = str(uuid.uuid4())
+    data_hora = datetime.now()
 
-#salvar o voto no banco de dados
-cursor.execute("INSERT INTO votos (protocolo, titulo_eleitor, numero_candidato, data_hora) VALUES (%s, %s, %s, %s)", (protocolo, titulo_eleitor, numero_candidato, data_hora))
-cursor.execute("UPDATE eleitores SET ja_votou = TRUE WHERE titulo_eleitor = %s", (titulo_eleitor,))
-connect.commit()
-# Mostrar o protocolo para o eleitor
-print("")
-print("Voto confirmado com sucesso!")
-print("Seu numero de protocolo e:", protocolo)
-print("Data e hora do voto:", data_hora.strftime("%d/%m/%Y %H:%M:%S"))
-print("")
-print("O sistema sera encerrado automaticamente.")
+    cursor.execute(
+        """
+        INSERT INTO votos (protocolo, titulo_eleitor, numero_candidato, data_hora)
+        VALUES (%s, %s, %s, %s)
+        """,
+        (protocolo, titulo_eleitor, numero_candidato, data_hora)
+    )
+    cursor.execute(
+        "UPDATE Eleitores SET Ja_votou = TRUE WHERE Titulo_de_eleitor = %s",
+        (titulo_eleitor,)
+    )
+    conexao.commit()
+
+    print("")
+    print("Voto confirmado com sucesso!")
+    print("Seu numero de protocolo e:", protocolo)
+    print("Data e hora do voto:", data_hora.strftime("%d/%m/%Y %H:%M:%S"))
+    print("")
+
+    fechar_bd(conexao, cursor)
+
+
+if __name__ == "__main__":
+    votacao()

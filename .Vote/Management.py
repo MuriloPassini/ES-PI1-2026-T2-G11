@@ -1,27 +1,35 @@
+from Abertura_votação import abrir_votacao
+from cadastro_candidato import menu_candidatos
+from cadastro_eleitor import cadastrar_eleitor
+from editar_eleitor import editar_eleitor
 
 
 def iniciar_management():
-    print('='*15, 'G E R E N C I A M E N T O', '='*15)
-    print(f'{"Área administrativa acessada!":^57}')
-    print(f'{'\t1. Cadastrar eleitor':^55}')
-    print(f'{'\t2. Editar eleitor':^51}')
-    print(f'{'\t3. Cadastrar candidato':^57}')
-    print(f'{'\t4. Mesário':^45}')
-    escolha = input('Digite o número da opção desejada: ')
-    match escolha:
-        case '1':
-            from cadastro_eleitor import cadastrar_eleitor
-            cadastrar_eleitor()
-        case '2':
-            from editar_eleitor import editar_eleitor
-            editar_eleitor()
-        case '3':
-            from cadastro_candidato import cadastrar
-            cadastrar()
-        case '4':
-            print('Função de mesário em desenvolvimento. Aguarde atualizações futuras.')
-        case _:
-            print('Opção inválida. Por favor, tente novamente.')
+    while True:
+        print("=" * 15, "G E R E N C I A M E N T O", "=" * 15)
+        print(f'{"Area administrativa acessada!":^57}')
+        print("1. Cadastrar eleitor")
+        print("2. Editar eleitor")
+        print("3. Gerenciar candidatos")
+        print("4. Abrir votacao (mesario)")
+        print("0. Voltar")
+
+        escolha = input("Digite o numero da opcao desejada: ").strip()
+
+        match escolha:
+            case "1":
+                cadastrar_eleitor()
+            case "2":
+                editar_eleitor()
+            case "3":
+                menu_candidatos()
+            case "4":
+                abrir_votacao()
+            case "0":
+                break
+            case _:
+                print("Opcao invalida. Por favor, tente novamente.")
 
 
-iniciar_management()
+if __name__ == "__main__":
+    iniciar_management()

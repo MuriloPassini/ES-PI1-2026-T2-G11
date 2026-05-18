@@ -1,37 +1,39 @@
-# Banco de dados importado.
-from banco import conectar_bd
-# Visualização da interface de votação inicial.
+from banco import conectar_bd, fechar_bd
+
+
 def iniciar_votacao():
-    print('='*10,'V O T A Ç Ã O','='*10)
-    print(f'{"O processo de votação foi iniciado!":^33}')
-# Validação do eleitor, conferência do título de eleitor, CPF e chave de acesso, além da verificação se o eleitor é mesário ou não.
+    print("=" * 10, "V O T A C A O", "=" * 10)
+    print(f'{"O processo de votacao foi iniciado!":^33}')
+
+
 def validar_candidato():
-    connection = conectar_bd()
-    cursor = connection.cursor()
-    titulo_eleitor = int(input('Digite o seu título de eleitor: '))
-    cpf = int(input('Digite os quatro primeiros dígitos do seu CPF: '))
-    chave = int(input('Digite a sua chave de acesso: '))
-    mesario = str(input('É mesário? (S/N): ')).upper()
-# Consulta SQL para validar o eleitor.
-    sql = """
-    SELECT mesario 
-    FROM eleitores
-    WHERE titulo_eleitor = %s 
-    AND SUBSTRING(cpf, 1, 4) = %s 
-    AND chave_acesso = %s
-    """
-# Execução da consulta SQL com os dados fornecidos pelo usuário.
-    cursor.execute(sql, (titulo_eleitor, cpf, chave))
+    conexao, cursor = conectar_bd()
+
+    titulo_eleitor = input("Digite o seu titulo de eleitor: ").strip()
+    cpf = input("Digite os quatro primeiros digitos do seu CPF: ").strip()
+    chave = input("Digite a sua chave de acesso: ").strip()
+    mesario = input("E mesario? (S/N): ").strip().upper()
+
+    cursor.execute(
+        """
+        SELECT Mesario
+        FROM Eleitores
+        WHERE Titulo_de_eleitor = %s
+          AND SUBSTRING(CPF, 1, 4) = %s
+          AND Chave_de_acesso = %s
+        """,
+        (titulo_eleitor, cpf, chave)
+    )
     resultado = cursor.fetchone()
-# Verificação do resultado da consulta para determinar se o eleitor é válido e se é mesário ou não, exibindo as mensagens apropriadas.
+
     if resultado is None:
-        print('Dados inválidos. Acesso negado.')
-    elif mesario == 'S':
-        if resultado[0] == '1':
-            print('Bem-vindo, mesário! Você pode acessar as funções de mesário.')
+        print("Dados invalidos. Acesso negado.")
+    elif mesario == "S":
+        if resultado[0] == "S":
+            print("Bem-vindo, mesario! Voce pode acessar as funcoes de mesario.")
         else:
-            print('Acesso negado. Você não é um mesário registrado.')
+            print("Acesso negado. Voce nao e um mesario registrado.")
     else:
-        print('Usuário validado com sucesso! Você pode votar normalmente.')
-    cursor.close()
-    connection.close()
+        print("Usuario validado com sucesso! Voce pode votar normalmente.")
+
+    fechar_bd(conexao, cursor)
