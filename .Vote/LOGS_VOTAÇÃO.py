@@ -10,10 +10,10 @@ def registrar_log(evento):
     logs_ocorrencias.append(evento)
 
     # Mostra mensagem de confirmação
-    print("\nLog registrado com sucesso!")
+    print("Log registrado com sucesso!")
 
 def exibir_logs():
-    print("\nLOGS DE OCORRÊNCIAS-->")
+    print("LOGS DE OCORRÊNCIAS-->")
 
     # Verifica se não existem logs
     if len(logs_ocorrencias) == 0:
@@ -101,4 +101,4 @@ while True:
         break
 
     else:
-        print("\nOpção inválida. Digite uma das opções válidas.")
+        print("Opção inválida. Digite uma das opções válidas.")
