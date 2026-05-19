@@ -26,7 +26,7 @@ if eleitor is None:
     print("Dados inválidos!!!")
     exit()
 if eleitor["ja_votou"] == True:
-    print("esse eleitor jaa realizou a votação!")
+    print("esse eleitor ja realizou a votação!")
     exit()
 
 #solicitação do numero do candidato
