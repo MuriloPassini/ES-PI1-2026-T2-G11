@@ -110,7 +110,7 @@ def deletarcandi():
                 print(f'Número: {resultado[1]}')
                 print(f'Partido: {resultado[2]}')
                 print('='*30)
-                confirmar=input('Deseja confirmar? (s/n):').split().lower()
+                confirmar=input('Deseja confirmar? (s/n):').strip().lower()
                 if confirmar=='s':
                         sql_deletar='delete from candidatos where numero=%s'
                         cursor.execute(sql_deletar,(numero_busca,))
@@ -139,7 +139,7 @@ while executando:
                         listar()
                 elif opcao == "3":
                         buscar()
-                elif opcao == "3":
+                elif opcao == "4":
                         deletarcandi()
                 elif opcao == "5":
                         print("Saindo...")
