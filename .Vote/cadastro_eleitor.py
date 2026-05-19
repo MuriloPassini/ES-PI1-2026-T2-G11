@@ -46,6 +46,10 @@ def cadastrar_eleitor():
         )
         conexao.commit()
     else:
-        print("Dados invalidos! Verifique o CPF e o titulo de eleitor.")
+        print("Dados invalidos!")
+        if not titulo_valido:
+            print("Titulo de eleitor invalido.")
+        if not cpf_valido:
+            print("CPF invalido.")
 
     fechar_bd(conexao, cursor)
