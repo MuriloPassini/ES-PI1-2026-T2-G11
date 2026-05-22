@@ -1,104 +1,35 @@
-# Lista que armazena os logs do sistema
-logs_ocorrencias = []
+from datetime import datetime
 
-# Lista que armazena os protocolos de votação
-protocolos_votacao = []
+ARQUIVO_LOG = "logs_ocorrencias.txt"
 
-def registrar_log(evento):
 
-    # Adiciona o evento na lista de logs
-    logs_ocorrencias.append(evento)
+def registrar_log(tipo, mensagem):
 
-    # Mostra mensagem de confirmação
-    print("Log registrado com sucesso!")
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-def exibir_logs():
-    print("LOGS DE OCORRÊNCIAS-->")
+    with open(ARQUIVO_LOG, "a", encoding="utf-8") as log:
 
-    # Verifica se não existem logs
-    if len(logs_ocorrencias) == 0:
-        print("Nenhum log encontrado.")
-
-    else:
-        # Percorre toda a lista de logs
-        for indice, log in enumerate(logs_ocorrencias, start=1):
-
-            # Mostra cada log numerado
-            print(f"{indice}. {log}")
-
-def gerar_protocolo(nome_eleitor):
-
-    # Cria um protocolo usando o tamanho da lista
-    protocolo = "PROTOCOLO-" + str(len(protocolos_votacao) + 1)
-
-    # Junta o nome do eleitor com o protocolo
-    registro = {
-        "eleitor": nome_eleitor,
-        "protocolo": protocolo
-    }
-
-    # Adiciona o registro na lista
-    protocolos_votacao.append(registro)
-
-    # Registra no log que um voto foi realizado
-    registrar_log(f"Voto registrado para {nome_eleitor}")
-
-    # Mostra o protocolo gerado
-    print(f"\nProtocolo gerado: {protocolo}")
-
-def exibir_protocolos():
-    print("\nPROTOCOLOS DE VOTAÇÃO-->")
-
-    # Verifica se não existem protocolos
-    if len(protocolos_votacao) == 0:
-        print("Nenhum protocolo encontrado.")
-
-    else:
-        # Ordena alfabeticamente pelo protocolo
-        protocolos_ordenados = sorted(
-            protocolos_votacao,
-            key=lambda item: item["protocolo"]
+        log.write(
+            f"[{timestamp}] [{tipo}] {mensagem}\n"
         )
 
-        # Percorre a lista ordenada
-        for item in protocolos_ordenados:
 
-            # Mostra eleitor e protocolo
-            print(
-                f"Eleitor: {item['eleitor']} | "
-                f"Protocolo: {item['protocolo']}"
-            )
+def exibir_logs():
 
-while True:
-    print(" SISTEMA DE AUDITORIA DA VOTAÇÃO-->")
-    
-    print("1 - Registrar Log")
-    print("2 - Exibir Logs")
-    print("3 - Gerar Protocolo")
-    print("4 - Exibir Protocolos")
-    print("5 - Encerrar Sistema")
+    print('\nLOGS\n')
 
-    # Usuário escolhe uma opção
-    opcao = input("\nDigite uma opção: ")
+    try:
 
-    if opcao == "1":
-        evento = input("Digite o evento ocorrido: ")
-        registrar_log(evento)
+        with open(ARQUIVO_LOG, "r", encoding="utf-8") as log:
 
-    elif opcao == "2":
-        exibir_logs()
+            conteudo = log.read()
 
-    elif opcao == "3":
-        nome = input("Digite o nome do eleitor: ")
-        gerar_protocolo(nome)
+            if conteudo.strip() == "":
+                print("Nenhum log registrado.")
 
-    elif opcao == "4":
-        exibir_protocolos()
+            else:
+                print(conteudo)
 
-    elif opcao == "5":
-        registrar_log("Sistema encerrado.")
-        print("\nSistema encerrado com sucesso!")
-        break
+    except FileNotFoundError:
 
-    else:
-        print("Opção inválida. Digite uma das opções válidas.")
+        print("Arquivo de log não encontrado.")
