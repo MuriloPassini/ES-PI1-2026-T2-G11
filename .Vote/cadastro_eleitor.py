@@ -41,54 +41,49 @@ def cadastrar_eleitor():
     conexao, cursor = conectar_bd()
 
     nome = input("Insira o nome do eleitor: ").strip()
-    while not nome:
+    while nome == "" or not nome.replace(" ", "").isalpha():
         print("Nome invalido. O nome nao pode ficar vazio.")
         nome = input("Insira o nome do eleitor: ").strip()
 
     titulo = input("Insira o titulo de eleitor do mesmo: ").strip()
-    cpf = input("Insira o CPF do eleitor: ").strip()
+    while validar_titulo(titulo) is False:
+        print("Titulo de eleitor invalido. O titulo deve conter apenas numeros, ter 12 digitos e ser valido.")
+        titulo = input("Insira o titulo de eleitor do mesmo: ").strip()
+
+    cpf = input("Insira o CPF do eleitor: ").strip().replace(".", "").replace("-", "")
+    while validacaocpf(cpf) is False:
+        print("CPF invalido. O CPF deve conter apenas numeros, ter 11 digitos e ser valido.")
+        cpf = input("Insira o CPF do eleitor: ").strip().replace(".", "").replace("-", "")
+
     mesario = input("O eleitor e mesario? S/N: ").strip().upper()
-
-    if mesario not in ("S", "N"):
+    while mesario not in ("S", "N"):
         print("Opcao de mesario invalida. Use S ou N.")
-        fechar_bd(conexao, cursor)
-        return
+        mesario = input("O eleitor e mesario? S/N: ").strip().upper()
 
-    titulo_valido = validar_titulo(titulo)
-    cpf_valido = validacaocpf(cpf)
     chave = chave_acesso(nome)
+    cpf_criptografado = criptografia.criptografar(cpf)
+    chave_criptografada = criptografia.criptografar(chave)
 
-    if titulo_valido and cpf_valido:
-        cpf_criptografado = criptografia.criptografar(cpf)
-        chave_criptografada = criptografia.criptografar(chave)
+    print("=" * 35)
+    print("Eleitor cadastrado com sucesso!")
+    print("Resumo do eleitor:")
+    print(f"Nome: {nome}")
+    print(f"Titulo de eleitor: {titulo}")
+    print(f"CPF: {cpf}")
+    print(f"E mesario?: {mesario}")
+    print(f"Chave de acesso: {chave}")
+    print("GUARDE SUA CHAVE DE ACESSO!")
+    print("=" * 35)
 
-        print("=" * 35)
-        print("Eleitor cadastrado com sucesso!")
-        print("Resumo do eleitor:")
-        print(f"Nome: {nome}")
-        print(f"Titulo de eleitor: {titulo}")
-        print(f"CPF: {cpf}")
-        print(f"E mesario?: {mesario}")
-        print(f"Chave de acesso: {chave}")
-        print("GUARDE SUA CHAVE DE ACESSO!")
-        print("=" * 35)
-
-        cursor.execute(
-            """
-            INSERT INTO Eleitores
-                (Nome_Completo, CPF, Titulo_de_eleitor, Chave_de_acesso, Mesario)
-            VALUES (%s, %s, %s, %s, %s)
-            """,
-            (nome, cpf_criptografado, titulo, chave_criptografada, mesario)
-        )
-        conexao.commit()
-    else:
-        print("Dados invalidos!")
-        if not titulo_valido:
-            print("Titulo de eleitor invalido.")
-        if not cpf_valido:
-            print("CPF invalido.")
-
+    cursor.execute(
+        """
+        INSERT INTO Eleitores
+            (Nome_Completo, CPF, Titulo_de_eleitor, Chave_de_acesso, Mesario)
+        VALUES (%s, %s, %s, %s, %s)
+        """,
+        (nome, cpf_criptografado, titulo, chave_criptografada, mesario)
+    )
+    conexao.commit()
     fechar_bd(conexao, cursor)
 
 
@@ -124,7 +119,7 @@ def buscar_eleitor():
         )
         resultados = cursor.fetchall()
     elif opcao == "3":
-        cpf_buscar = input("Digite o CPF do eleitor: ").strip()
+        cpf_buscar = input("Digite o CPF do eleitor: ").strip().replace(".", "").replace("-", "")
         cpf_criptografado = criptografia.criptografar(cpf_buscar)
         cursor.execute(
             """

@@ -106,11 +106,3 @@ def descriptografar(texto):
         texto_descriptografado = texto_descriptografado[:-1]
 
     return texto_descriptografado
-
-
-if __name__ == "__main__":
-    texto_para_criptografar = input("Digite o texto para criptografar: ")
-    texto_para_descriptografar = input("Digite o texto para descriptografar: ")
-
-    print("Criptografado:", criptografar(texto_para_criptografar))
-    print("Descriptografado:", descriptografar(texto_para_descriptografar))

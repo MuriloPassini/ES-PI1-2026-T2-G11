@@ -25,3 +25,12 @@ CREATE TABLE IF NOT EXISTS votos (
     data_hora DATETIME NOT NULL,
     FOREIGN KEY (numero_candidato) REFERENCES candidatos(numero)
 );
+
+CREATE TABLE IF NOT EXISTS status_votacao (
+    id INT PRIMARY KEY,
+    aberta BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+INSERT INTO status_votacao (id, aberta)
+VALUES (1, FALSE)
+ON DUPLICATE KEY UPDATE id = id;

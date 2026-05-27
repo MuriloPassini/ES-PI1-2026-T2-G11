@@ -21,6 +21,14 @@ def gerar_protocolo(numero_candidato):
 def votacao():
     conexao, cursor = conectar_bd()
 
+    cursor.execute("SELECT aberta FROM status_votacao WHERE id = 1")
+    status = cursor.fetchone()
+
+    if status is None or not status[0]:
+        print("ERRO! O sistema de votacao nao esta aberto.")
+        fechar_bd(conexao, cursor)
+        return
+
     titulo_eleitor = input("Digite o titulo de eleitor: ").strip()
     cpf_inicio = input("Digite os 4 primeiros digitos do CPF: ").strip()
     chave_de_acesso = input("Digite sua chave de acesso: ").strip()
@@ -94,10 +102,10 @@ def votacao():
 
     cursor.execute(
         """
-        INSERT INTO votos (protocolo, titulo_eleitor, numero_candidato, data_hora)
-        VALUES (%s, %s, %s, %s)
+        INSERT INTO votos (protocolo, numero_candidato, data_hora)
+        VALUES (%s, %s, %s)
         """,
-        (protocolo_criptografado, titulo_eleitor, numero_candidato, data_hora)
+        (protocolo_criptografado, numero_candidato, data_hora)
     )
     cursor.execute(
         "UPDATE Eleitores SET Ja_votou = TRUE WHERE Titulo_de_eleitor = %s",
@@ -113,6 +121,3 @@ def votacao():
 
     fechar_bd(conexao, cursor)
 
-
-if __name__ == "__main__":
-    votacao()

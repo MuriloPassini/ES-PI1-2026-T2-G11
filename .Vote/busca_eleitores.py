@@ -41,6 +41,3 @@ def iniciar_login():
 
     fechar_bd(conexao, cursor)
 
-
-if __name__ == "__main__":
-    iniciar_login()

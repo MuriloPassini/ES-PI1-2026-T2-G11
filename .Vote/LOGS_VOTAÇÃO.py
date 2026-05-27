@@ -42,7 +42,7 @@ def exibir_protocolos():
 
     cursor.execute(
         """
-        SELECT protocolo, titulo_eleitor, numero_candidato, data_hora
+        SELECT protocolo, numero_candidato, data_hora
         FROM votos
         ORDER BY data_hora
         """
@@ -56,7 +56,7 @@ def exibir_protocolos():
 
     for voto in votos:
         protocolo = criptografia.descriptografar(voto[0])
-        print(f"Titulo: {voto[1]} | Candidato: {voto[2]} | Protocolo: {protocolo}")
+        print(f"Candidato: {voto[1]} | Protocolo: {protocolo}")
 
     fechar_bd(conexao, cursor)
 
@@ -89,6 +89,3 @@ def menu_auditoria():
         else:
             print("\nOpcao invalida. Digite uma das opcoes validas.")
 
-
-if __name__ == "__main__":
-    menu_auditoria()
