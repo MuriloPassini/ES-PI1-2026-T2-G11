@@ -62,7 +62,8 @@ def exibir_protocolos():
 
 
 def menu_auditoria():
-    while True:
+    auditoria_aberta = True
+    while auditoria_aberta:
         print("\nSISTEMA DE AUDITORIA DA VOTACAO")
         print("1 - Registrar Log")
         print("2 - Exibir Logs")
@@ -85,7 +86,7 @@ def menu_auditoria():
         elif opcao == "5":
             registrar_log("Sistema encerrado.")
             print("\nSistema encerrado com sucesso!")
-            break
+            auditoria_aberta = False
         else:
             print("\nOpcao invalida. Digite uma das opcoes validas.")
 

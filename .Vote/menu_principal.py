@@ -4,8 +4,8 @@ from voting_sys import votacao
 
 
 def iniciar_hub():
-    false_case = 0
-    while false_case == 0:
+    hub_aberto = True
+    while hub_aberto:
         print("=" * 15, "H U B", "=" * 15)
         print(f'{"Bem-vindo ao menu principal!":^35}')
         print(f'{"Selecione uma opcao para continuar:":^35}')
@@ -19,17 +19,13 @@ def iniciar_hub():
         match escolha:
             case "1":
                 iniciar_management()
-                false_case += 1
             case "2":
                 votacao()
-                false_case += 1
             case "3":
                 menu_auditoria()
-                false_case += 1
             case "0":
                 print("Saindo...")
-                false_case += 1
-                break
+                hub_aberto = False
             case _:
                 print("Opcao invalida. Por favor, tente novamente.")
 
