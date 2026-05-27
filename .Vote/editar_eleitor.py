@@ -1,4 +1,5 @@
 from banco import conectar_bd, fechar_bd
+import criptografia
 
 
 def editar_eleitor():
@@ -9,7 +10,8 @@ def editar_eleitor():
         cursor.execute("SELECT Nome_Completo, CPF, Titulo_de_eleitor FROM Eleitores")
         eleitores = cursor.fetchall()
         for eleitor in eleitores:
-            print(f"Nome: {eleitor[0]} | CPF: {eleitor[1]} | Titulo: {eleitor[2]}")
+            cpf_eleitor = criptografia.descriptografar(eleitor[1])
+            print(f"Nome: {eleitor[0]} | CPF: {cpf_eleitor} | Titulo: {eleitor[2]}")
 
     nome_eleitor = input("Digite o nome do eleitor que gostaria de editar: ").strip()
 
@@ -44,6 +46,8 @@ def editar_eleitor():
         novo_nome = nome_atual
     if novo_cpf == "":
         novo_cpf = cpf_atual
+    else:
+        novo_cpf = criptografia.criptografar(novo_cpf)
     if novo_titulo == "":
         novo_titulo = titulo_atual
 

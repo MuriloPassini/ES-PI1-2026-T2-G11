@@ -1,7 +1,21 @@
 from datetime import datetime
-import uuid
+import random
 
 from banco import conectar_bd, fechar_bd
+import criptografia
+
+
+def gerar_protocolo(numero_candidato):
+    letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    letra_1 = random.choice(letras)
+    letra_2 = random.choice(letras)
+    numero_candidato = str(numero_candidato).zfill(2)
+    numeros = ""
+
+    for i in range(5):
+        numeros = numeros + str(random.randint(0, 9))
+
+    return "V" + letra_1 + letra_2 + "26" + numero_candidato + numeros
 
 
 def votacao():
@@ -18,13 +32,11 @@ def votacao():
 
     cursor.execute(
         """
-        SELECT Nome_Completo, Ja_votou
+        SELECT Nome_Completo, CPF, Chave_de_acesso, Ja_votou
         FROM Eleitores
         WHERE Titulo_de_eleitor = %s
-          AND SUBSTRING(CPF, 1, 4) = %s
-          AND Chave_de_acesso = %s
         """,
-        (titulo_eleitor, cpf_inicio, chave_de_acesso)
+        (titulo_eleitor,)
     )
     eleitor = cursor.fetchone()
 
@@ -33,7 +45,15 @@ def votacao():
         fechar_bd(conexao, cursor)
         return
 
-    if eleitor[1]:
+    cpf_banco = criptografia.descriptografar(eleitor[1])
+    chave_banco = criptografia.descriptografar(eleitor[2])
+
+    if cpf_banco[:4] != cpf_inicio or chave_banco != chave_de_acesso:
+        print("Dados invalidos!")
+        fechar_bd(conexao, cursor)
+        return
+
+    if eleitor[3]:
         print("Esse eleitor ja realizou a votacao!")
         fechar_bd(conexao, cursor)
         return
@@ -68,7 +88,8 @@ def votacao():
         if confirmar == "S":
             numero_candidato = candidato[1]
 
-    protocolo = str(uuid.uuid4())
+    protocolo = gerar_protocolo(numero_candidato)
+    protocolo_criptografado = criptografia.criptografar(protocolo)
     data_hora = datetime.now()
 
     cursor.execute(
@@ -76,7 +97,7 @@ def votacao():
         INSERT INTO votos (protocolo, titulo_eleitor, numero_candidato, data_hora)
         VALUES (%s, %s, %s, %s)
         """,
-        (protocolo, titulo_eleitor, numero_candidato, data_hora)
+        (protocolo_criptografado, titulo_eleitor, numero_candidato, data_hora)
     )
     cursor.execute(
         "UPDATE Eleitores SET Ja_votou = TRUE WHERE Titulo_de_eleitor = %s",

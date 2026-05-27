@@ -1,3 +1,7 @@
+import criptografia
+from banco import conectar_bd, fechar_bd
+
+
 logs_ocorrencias = []
 protocolos_votacao = []
 
@@ -34,17 +38,27 @@ def gerar_protocolo(nome_eleitor):
 def exibir_protocolos():
     print("\nPROTOCOLOS DE VOTACAO")
 
-    if len(protocolos_votacao) == 0:
+    conexao, cursor = conectar_bd()
+
+    cursor.execute(
+        """
+        SELECT protocolo, titulo_eleitor, numero_candidato, data_hora
+        FROM votos
+        ORDER BY data_hora
+        """
+    )
+    votos = cursor.fetchall()
+
+    if len(votos) == 0:
         print("Nenhum protocolo encontrado.")
+        fechar_bd(conexao, cursor)
         return
 
-    protocolos_ordenados = sorted(
-        protocolos_votacao,
-        key=lambda item: item["protocolo"]
-    )
+    for voto in votos:
+        protocolo = criptografia.descriptografar(voto[0])
+        print(f"Titulo: {voto[1]} | Candidato: {voto[2]} | Protocolo: {protocolo}")
 
-    for item in protocolos_ordenados:
-        print(f"Eleitor: {item['eleitor']} | Protocolo: {item['protocolo']}")
+    fechar_bd(conexao, cursor)
 
 
 def menu_auditoria():

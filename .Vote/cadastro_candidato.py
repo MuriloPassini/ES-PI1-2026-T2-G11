@@ -159,7 +159,3 @@ def menu_candidatos():
             executando = False
         else:
             print("Opcao invalida!")
-
-
-if __name__ == "__main__":
-    menu_candidatos()

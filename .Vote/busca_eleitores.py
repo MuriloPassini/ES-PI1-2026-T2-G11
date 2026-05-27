@@ -1,4 +1,5 @@
 from banco import conectar_bd, fechar_bd
+import criptografia
 
 
 def iniciar_login():
@@ -13,20 +14,25 @@ def iniciar_login():
 
     cursor.execute(
         """
-        SELECT Mesario
+        SELECT CPF, Chave_de_acesso, Mesario
         FROM Eleitores
         WHERE Titulo_de_eleitor = %s
-          AND SUBSTRING(CPF, 1, 4) = %s
-          AND Chave_de_acesso = %s
         """,
-        (titulo_eleitor, cpf, chave)
+        (titulo_eleitor,)
     )
     resultado = cursor.fetchone()
+
+    if resultado is not None:
+        cpf_banco = criptografia.descriptografar(resultado[0])
+        chave_banco = criptografia.descriptografar(resultado[1])
+
+        if cpf_banco[:4] != cpf or chave_banco != chave:
+            resultado = None
 
     if resultado is None:
         print("Dados invalidos. Acesso negado.")
     elif mesario == "S":
-        if resultado[0] == "S":
+        if resultado[2] == "S":
             print("Bem-vindo, mesario! Voce pode acessar as funcoes de mesario.")
         else:
             print("Acesso negado. Voce nao e um mesario registrado.")

@@ -1,4 +1,5 @@
 from banco import conectar_bd, fechar_bd
+import criptografia
 
 
 def abrir_votacao():
@@ -16,13 +17,11 @@ def abrir_votacao():
 
     cursor.execute(
         """
-        SELECT Mesario
+        SELECT CPF, Chave_de_acesso, Mesario
         FROM Eleitores
         WHERE Titulo_de_eleitor = %s
-          AND SUBSTRING(CPF, 1, 4) = %s
-          AND Chave_de_acesso = %s
         """,
-        (titulo, cpf, chave)
+        (titulo,)
     )
     resultado = cursor.fetchone()
 
@@ -31,7 +30,16 @@ def abrir_votacao():
         fechar_bd(conexao, cursor)
         return False
 
-    if resultado[0] != "S":
+    cpf_banco = criptografia.descriptografar(resultado[0])
+    chave_banco = criptografia.descriptografar(resultado[1])
+    mesario_banco = resultado[2]
+
+    if cpf_banco[:4] != cpf or chave_banco != chave:
+        print("\nERRO! Validacao falhou.")
+        fechar_bd(conexao, cursor)
+        return False
+
+    if mesario_banco != "S":
         print("\nERRO! Usuario nao esta cadastrado como mesario.")
         fechar_bd(conexao, cursor)
         return False
