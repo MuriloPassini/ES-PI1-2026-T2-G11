@@ -15,6 +15,9 @@ def gerar_protocolo(numero_candidato):
         digito1+=random.choice(digitos)
     return "V"+letra1+letra2+"26"+numero_candidato+digito1
 
+
+
+
 def votacao():
     conexao, cursor = conectar_bd()
 
@@ -116,3 +119,4 @@ def votacao():
     print("")
 
     fechar_bd(conexao, cursor)
+

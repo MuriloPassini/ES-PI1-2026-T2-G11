@@ -4,7 +4,8 @@ from cadastro_eleitor import menu_eleitores
 
 
 def iniciar_management():
-    while True:
+    gerenciamento_aberto = True
+    while gerenciamento_aberto:
         print("=" * 15, "G E R E N C I A M E N T O", "=" * 15)
         print(f'{"Area administrativa acessada!":^57}')
         print("1. Gerenciar eleitores")
@@ -22,6 +23,6 @@ def iniciar_management():
             case "3":
                 abrir_votacao()
             case "0":
-                break
+                gerenciamento_aberto = False
             case _:
                 print("Opcao invalida. Por favor, tente novamente.")

@@ -34,3 +34,17 @@ CREATE TABLE IF NOT EXISTS status_votacao (
 INSERT INTO status_votacao (id, aberta)
 VALUES (1, FALSE)
 ON DUPLICATE KEY UPDATE id = id;
+
+
+
+DROP TABLE Eleitores;
+DROP TABLE candidatos;
+DROP TABLE votos;
+DROP TABLE status_votacao;
+
+SELECT * FROM Eleitores;
+SELECT * FROM candidatos;
+SELECT * FROM votos;
+SELECT * FROM status_votacao;
+
+SHOW TABLES;
