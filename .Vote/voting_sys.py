@@ -6,17 +6,14 @@ import criptografia
 
 
 def gerar_protocolo(numero_candidato):
-    letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    letra_1 = random.choice(letras)
-    letra_2 = random.choice(letras)
-    numero_candidato = str(numero_candidato).zfill(2)
-    numeros = ""
-
+    letras='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    letra1=random.choice(letras)
+    letra2=random.choice(letras)
+    digitos='1234567890'
+    digito1=''
     for i in range(5):
-        numeros = numeros + str(random.randint(0, 9))
-
-    return "V" + letra_1 + letra_2 + "26" + numero_candidato + numeros
-
+        digito1+=random.choice(digitos)
+    return "V"+letra1+letra2+"26"+numero_candidato+digito1
 
 def votacao():
     conexao, cursor = conectar_bd()
@@ -95,8 +92,7 @@ def votacao():
         confirmar = input("Deseja confirmar seu voto (S/N): ").strip().upper()
         if confirmar == "S":
             numero_candidato = candidato[1]
-
-    protocolo = gerar_protocolo(numero_candidato)
+    protocolo=gerar_protocolo(numero_candidato)
     protocolo_criptografado = criptografia.criptografar(protocolo)
     data_hora = datetime.now()
 
@@ -120,4 +116,3 @@ def votacao():
     print("")
 
     fechar_bd(conexao, cursor)
-
