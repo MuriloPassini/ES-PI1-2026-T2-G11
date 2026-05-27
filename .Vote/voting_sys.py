@@ -6,14 +6,15 @@ import criptografia
 
 
 def gerar_protocolo(numero_candidato):
-    letras='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    letra1=random.choice(letras)
-    letra2=random.choice(letras)
-    digitos='1234567890'
-    digito1=''
+    letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    letra1 = random.choice(letras)
+    letra2 = random.choice(letras)
+    numero_candidato = str(numero_candidato).zfill(2)
+    digitos = '1234567890'
+    digito1 = ''
     for i in range(5):
-        digito1+=random.choice(digitos)
-    return "V"+letra1+letra2+"26"+numero_candidato+digito1
+        digito1 += random.choice(digitos)
+    return "V" + letra1 + letra2 + "26" + numero_candidato + digito1
 
 
 
