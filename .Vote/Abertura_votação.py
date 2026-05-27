@@ -53,6 +53,11 @@ def abrir_votacao():
         print("Nenhum candidato cadastrado.")
 
     print("\nSistema liberado para votacao!")
+
+    #abrir votação no banco
+    cursor.execute("UPDATE status_votacao SET aberta = TRUE WHERE id = 1")
+    conexao.commit()
+
     fechar_bd(conexao, cursor)
     return True
 
