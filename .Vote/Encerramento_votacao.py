@@ -1,4 +1,5 @@
 from banco import conectar_bd, fechar_bd
+import criptografia
 
 def fechar_votacao():
 
@@ -19,16 +20,14 @@ def fechar_votacao():
 
     # SQL para verificar o mesário
 
-    sql = """
-    SELECT Mesario, Nome_Completo
-    FROM Eleitores
-    WHERE Titulo_de_eleitor = %s
-    AND SUBSTRING(CPF, 1, 4) = %s
-    AND Chave_de_acesso = %s
-    """
-
-    # Executa o SQL
-    cursor.execute(sql, (titulo, cpf, chave))
+    cursor.execute(
+        """
+        SELECT CPF, Chave_de_acesso, Mesario, Nome_Completo
+        FROM Eleitores
+        WHERE Titulo_de_eleitor = %s
+        """,
+        (titulo,)
+    )
 
     # Pega o resultado
     resultado = cursor.fetchone()
@@ -37,15 +36,23 @@ def fechar_votacao():
     if resultado is None:
         print('\nERRO!!! Validação falhou.')
         fechar_bd(conexao, cursor)
-        return
+        return False
+
+    cpf_banco = criptografia.descriptografar(resultado[0])
+    chave_banco = criptografia.descriptografar(resultado[1])
+    mesario_banco = resultado[2]
+    nome_mesario = resultado[3]
+
+    if cpf_banco[:4] != cpf or chave_banco != chave:
+        print('\nERRO!!! Validação falhou.')
+        fechar_bd(conexao, cursor)
+        return False
 
     # Verifica se é mesário
-    if resultado[0] != 'S':
+    if mesario_banco != 'S':
         print('\nERRO!!! Usuário não está cadastrado como mesário.')
         fechar_bd(conexao, cursor)
-        return
-
-    nome_mesario = resultado[1]
+        return False
     print(f"\nMesario {nome_mesario} autenticado com sucesso!")
 
     #verificação de encerramento
