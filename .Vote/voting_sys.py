@@ -7,6 +7,14 @@ from banco import conectar_bd, fechar_bd
 def votacao():
     conexao, cursor = conectar_bd()
 
+    cursor.execute("SELECT aberta FROM status_votacao WHERE id = 1")
+    status = cursor.fetchone()
+
+    if status is None or not status[0]:
+        print("ERRO! O sistema de votacao nao esta aberto.")
+        fechar_bd(conexao, cursor)
+        return
+
     titulo_eleitor = input("Digite o titulo de eleitor: ").strip()
     cpf_inicio = input("Digite os 4 primeiros digitos do CPF: ").strip()
     chave_de_acesso = input("Digite sua chave de acesso: ").strip()
