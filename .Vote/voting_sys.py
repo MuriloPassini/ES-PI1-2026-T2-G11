@@ -86,6 +86,11 @@ def votacao():
 
         if candidato is None:
             print("Candidato nao encontrado.")
+            Voto_Nulo = input("Você deseja realizar um voto nulo? (S/N) ").strip().upper()
+            if Voto_Nulo == "S":
+                numero_candidato = None  #representação do voto nulo
+
+            #se a resposta não for positiva ele retorna a perguntar
             continue
 
         print("Candidato:")
@@ -106,6 +111,11 @@ def votacao():
 
     print("")
     print("Voto confirmado com sucesso!")
+    #verificar se foi nulo
+    if numero_candidato == None:
+        print("Voto registrado como: NULO")
+    else:
+        print(f"Candidato votado: {numero_candidato}")
     print("Seu numero de protocolo e:", protocolo)
     print("Data e hora do voto:", data_hora.strftime("%d/%m/%Y %H:%M:%S"))
     print("")
