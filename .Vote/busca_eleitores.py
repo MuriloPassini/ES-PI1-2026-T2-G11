@@ -32,11 +32,13 @@ def iniciar_login():
 
     if resultado is None:
         print("Dados invalidos. Acesso negado.")
+        registrar_acesso_negado()
     elif mesario == "S":
         if resultado[2] == "S":
             print("Bem-vindo, mesario! Voce pode acessar as funcoes de mesario.")
         else:
             print("Acesso negado. Voce nao e um mesario registrado.")
+            registrar_acesso_negado()
     else:
         print("Usuario validado com sucesso! Voce pode votar normalmente.")
 
