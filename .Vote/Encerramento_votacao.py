@@ -52,9 +52,11 @@ def fechar_votacao():
     # Verifica se é mesário
     if mesario_banco != 'S':
         print('\nERRO!!! Usuário não está cadastrado como mesário.')
+        registrar_acesso_negado()
         fechar_bd(conexao, cursor)
         return False
     print(f"\nMesario {nome_mesario} autenticado com sucesso!")
+    registrar_encerramento()
 
     #verificação de encerramento
     confirmar_encerramento = input("Deseja realmente encerrar a votação (S/N): ").strip().upper()
