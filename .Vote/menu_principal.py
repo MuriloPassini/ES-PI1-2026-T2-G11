@@ -1,7 +1,6 @@
-from LOGS_VOTAÇÃO import menu_auditoria
 from Management import iniciar_management
 from voting_sys import votacao
-
+from LOGS_VOTAÇÃO import menu_auditoria
 
 def iniciar_hub():
     hub_aberto = True

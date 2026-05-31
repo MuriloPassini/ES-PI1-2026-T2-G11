@@ -1,5 +1,6 @@
 from banco import conectar_bd, fechar_bd
 import criptografia
+from LOGS_VOTAÇÃO import registrar_acesso_negado
 
 
 def iniciar_login():

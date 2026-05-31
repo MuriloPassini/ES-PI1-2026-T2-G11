@@ -1,6 +1,6 @@
 from banco import conectar_bd, fechar_bd
 import criptografia
-
+from LOGS_VOTAÇÃO import registrar_abertura, registrar_acesso_negado 
 
 def abrir_votacao():
     conexao, cursor = conectar_bd()
@@ -68,4 +68,3 @@ def abrir_votacao():
 
     fechar_bd(conexao, cursor)
     return True
-

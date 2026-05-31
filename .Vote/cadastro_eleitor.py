@@ -1,7 +1,7 @@
 from banco import conectar_bd, fechar_bd
 from chave_acesso import chave_acesso
 from editar_eleitor import editar_eleitor
-from validacoes import validacaocpf, validar_titulo
+from validacoes import validacaocpf, validacaotitulo
 import criptografia
 
 
@@ -46,7 +46,7 @@ def cadastrar_eleitor():
         nome = input("Insira o nome do eleitor: ").strip()
 
     titulo = input("Insira o titulo de eleitor do mesmo: ").strip()
-    while validar_titulo(titulo) is False:
+    while validacaotitulo(titulo) is False:
         print("Titulo de eleitor invalido. O titulo deve conter apenas numeros, ter 12 digitos e ser valido.")
         titulo = input("Insira o titulo de eleitor do mesmo: ").strip()
 
