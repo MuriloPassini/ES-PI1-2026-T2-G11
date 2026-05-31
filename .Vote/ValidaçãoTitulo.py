@@ -1,4 +1,13 @@
 def validar_titulo(titulo):
+    """
+    Valida um titulo de eleitor pelo tamanho, formato e digitos verificadores.
+
+    Args:
+        titulo (str): Numero do titulo de eleitor informado pelo usuario.
+
+    Returns:
+        bool: True se o titulo for valido, False caso contrario.
+    """
     if not titulo.isdigit() or len(titulo) != 12:
         return False
 

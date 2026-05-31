@@ -1,6 +1,15 @@
 from banco import conectar_bd, fechar_bd
 
 def boletim_urna():
+    """
+    Mostra a quantidade de votos por candidato e destaca o mais votado.
+
+    Args:
+        Nenhum.
+
+    Returns:
+        None: A funcao apenas imprime o boletim de urna no terminal.
+    """
     #exibe os votos por candidato em ordem alfabetica e declara quem venceu
 
     conexao, cursor = conectar_bd()
@@ -39,6 +48,15 @@ def boletim_urna():
     fechar_bd(conexao, cursor)
 
 def estatistica_comparecimento():
+    """
+    Calcula e exibe o comparecimento dos eleitores cadastrados.
+
+    Args:
+        Nenhum.
+
+    Returns:
+        None: A funcao imprime totais e percentual de participacao.
+    """
     #mostra quantos eleitores votaram
 
     conexao, cursor = conectar_bd()
@@ -66,6 +84,15 @@ def estatistica_comparecimento():
     fechar_bd(conexao, cursor)
 
 def votos_por_partido():
+    """
+    Soma e exibe os votos recebidos por cada partido.
+
+    Args:
+        Nenhum.
+
+    Returns:
+        None: A funcao apenas imprime os votos agrupados por partido.
+    """
     #exibe a soma de votos recebidos por partido
 
     conexao, cursor = conectar_bd()
@@ -95,6 +122,15 @@ def votos_por_partido():
     fechar_bd(conexao, cursor)
 
 def validacao_integridade():
+    """
+    Compara votos registrados com eleitores marcados como ja votaram.
+
+    Args:
+        Nenhum.
+
+    Returns:
+        None: A funcao imprime se os totais conferem ou se ha inconsistencia.
+    """
     #compara a quantidade de votos cadastrados na urna pela quantidade de pessoas listadas com "ja_votou"
     
     conexao, cursor = conectar_bd()
@@ -120,6 +156,15 @@ def validacao_integridade():
     fechar_bd(conexao, cursor)
 
 def menu_resultados():
+    """
+    Exibe o menu de resultados e direciona para os relatorios disponiveis.
+
+    Args:
+        Nenhum.
+
+    Returns:
+        None: A funcao controla o menu ate o usuario escolher voltar.
+    """
     #exibe o menu de resultados da votacao e direciona para cada opcao disponivel.
 
     executando_menu = True

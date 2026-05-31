@@ -7,6 +7,15 @@ import criptografia
 
 
 def gerar_protocolo(numero_candidato):
+    """
+    Gera um codigo de protocolo para identificar o voto registrado.
+
+    Args:
+        numero_candidato (int | None): Numero do candidato votado ou None para voto nulo.
+
+    Returns:
+        str: Protocolo formado por letras, ano, numero do candidato e digitos aleatorios.
+    """
     letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     letra1 = random.choice(letras)
     letra2 = random.choice(letras)
@@ -21,6 +30,15 @@ def gerar_protocolo(numero_candidato):
 
 
 def votacao():
+    """
+    Conduz a votacao, valida o eleitor e registra o voto no banco de dados.
+
+    Args:
+        Nenhum.
+
+    Returns:
+        None: A funcao encerra sem valor quando ha erro ou confirma o voto no final.
+    """
     conexao, cursor = conectar_bd()
 
     cursor.execute("SELECT aberta FROM status_votacao WHERE id = 1")
@@ -91,7 +109,8 @@ def votacao():
             print("Candidato nao encontrado.")
             Voto_Nulo = input("Você deseja realizar um voto nulo? (S/N) ").strip().upper()
             if Voto_Nulo == "S":
-                numero_candidato = None  #representação do voto nulo
+                break
+            continue
 
             #se a resposta não for positiva ele retorna a perguntar
             continue

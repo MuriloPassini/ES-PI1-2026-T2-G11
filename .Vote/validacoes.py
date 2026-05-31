@@ -1,4 +1,13 @@
 def validacaotitulo(titulo):
+    """
+    Valida um titulo de eleitor pelo tamanho, formato e digitos verificadores.
+
+    Args:
+        titulo (str): Numero do titulo de eleitor informado pelo usuario.
+
+    Returns:
+        bool: True se o titulo for valido, False caso contrario.
+    """
     if not titulo.isdigit() or len(titulo) != 12:
         return False
 
@@ -31,6 +40,15 @@ def validacaotitulo(titulo):
         return False
 
 def validacaocpf(cpf):
+    """
+    Valida um CPF pelo tamanho, repeticao de digitos e digitos verificadores.
+
+    Args:
+        cpf (str): CPF informado pelo usuario, apenas com numeros.
+
+    Returns:
+        bool: True se o CPF for valido, False caso contrario.
+    """
     #Essa primeira parte verifica se tem 11 digitos, se é apenas digitos e se não sao numeros repetidos
     if len(cpf)!=11 or not cpf.isdigit() or len(set(cpf))==1:
         return False

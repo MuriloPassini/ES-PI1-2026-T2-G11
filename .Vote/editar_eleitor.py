@@ -3,6 +3,15 @@ import criptografia
 
 
 def editar_eleitor():
+    """
+    Atualiza nome, CPF ou titulo de um eleitor ja cadastrado.
+
+    Args:
+        Nenhum.
+
+    Returns:
+        None: A funcao altera os dados no banco ou encerra quando o eleitor nao e encontrado.
+    """
     conexao, cursor = conectar_bd()
 
     mostrar_eleitores = input("Mostrar todos os eleitores? S/N: ").strip().upper()

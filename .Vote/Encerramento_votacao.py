@@ -3,6 +3,15 @@ import criptografia
 from LOGS_VOTAÇÃO import registrar_encerramento, registrar_acesso_negado
 
 def fechar_votacao():
+    """
+    Autentica um mesario e encerra a votacao quando a confirmacao e feita.
+
+    Args:
+        Nenhum.
+
+    Returns:
+        bool: True quando a votacao e encerrada; False quando falha ou e cancelada.
+    """
 
     # Faz a conexão com o banco e cria o cursor
 

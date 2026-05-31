@@ -4,6 +4,15 @@ from LOGS_VOTAÇÃO import registrar_acesso_negado
 
 
 def iniciar_login():
+    """
+    Valida os dados de acesso de um eleitor ou mesario cadastrado.
+
+    Args:
+        Nenhum.
+
+    Returns:
+        None: A funcao apenas informa se o acesso foi permitido ou negado.
+    """
     print("=" * 9, "L O G I N", "=" * 9)
 
     conexao, cursor = conectar_bd()

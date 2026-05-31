@@ -19,6 +19,15 @@ matriz_inversa = [
 
 
 def texto_p_numero(texto):
+    """
+    Converte um texto para os numeros correspondentes no alfabeto da cifra.
+
+    Args:
+        texto (str): Texto que sera convertido em indices numericos.
+
+    Returns:
+        list: Lista de inteiros com as posicoes dos caracteres no alfabeto.
+    """
     texto_em_numero = []
     for letra in texto:
         if letra in alfabeto:
@@ -28,6 +37,15 @@ def texto_p_numero(texto):
 
 
 def fazer_matriz_hill(texto_em_numero):
+    """
+    Separa os numeros do texto em pares usados pela cifra de Hill.
+
+    Args:
+        texto_em_numero (list): Lista de inteiros criada a partir do texto.
+
+    Returns:
+        list: Lista de pares numericos usados nos calculos da cifra.
+    """
     if len(texto_em_numero) % 2 != 0:
         texto_em_numero.append(alfabeto.index(caractere_padding))
 
@@ -41,6 +59,15 @@ def fazer_matriz_hill(texto_em_numero):
 
 
 def matriz_criptografada(matriz_hill):
+    """
+    Aplica a matriz chave em um par numerico para criptografar esse trecho.
+
+    Args:
+        matriz_hill (list): Par de inteiros que representa dois caracteres.
+
+    Returns:
+        list: Par de inteiros ja criptografado.
+    """
     x = matriz_hill[0]
     y = matriz_hill[1]
 
@@ -51,6 +78,15 @@ def matriz_criptografada(matriz_hill):
 
 
 def matriz_descriptografada(matriz_hill):
+    """
+    Aplica a matriz inversa em um par numerico para recuperar o texto original.
+
+    Args:
+        matriz_hill (list): Par de inteiros criptografados.
+
+    Returns:
+        list: Par de inteiros descriptografado.
+    """
     x = matriz_hill[0]
     y = matriz_hill[1]
 
@@ -61,6 +97,15 @@ def matriz_descriptografada(matriz_hill):
 
 
 def numero_p_texto(numeros):
+    """
+    Converte numeros do alfabeto da cifra de volta para texto.
+
+    Args:
+        numeros (list): Lista de inteiros com posicoes do alfabeto.
+
+    Returns:
+        str: Texto montado a partir dos numeros recebidos.
+    """
     texto = ""
 
     for numero in numeros:
@@ -70,6 +115,15 @@ def numero_p_texto(numeros):
 
 
 def criptografar(texto):
+    """
+    Criptografa um texto usando a cifra de Hill configurada no arquivo.
+
+    Args:
+        texto (str): Texto original que sera criptografado.
+
+    Returns:
+        str: Texto criptografado com os caracteres do alfabeto permitido.
+    """
     texto = texto.upper()
 
     texto_em_numero = texto_p_numero(texto)
@@ -88,6 +142,15 @@ def criptografar(texto):
 
 
 def descriptografar(texto):
+    """
+    Descriptografa um texto gerado pela cifra de Hill do sistema.
+
+    Args:
+        texto (str): Texto criptografado que sera convertido de volta.
+
+    Returns:
+        str: Texto descriptografado, sem o caractere de preenchimento final.
+    """
     texto = texto.upper()
 
     texto_em_numero = texto_p_numero(texto)

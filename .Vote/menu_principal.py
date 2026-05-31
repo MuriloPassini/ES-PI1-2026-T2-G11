@@ -3,6 +3,15 @@ from menu_votacao import iniciar_menu_votacao
 
 
 def iniciar_hub():
+    """
+    Mostra o menu principal e direciona o usuario para as areas do sistema.
+
+    Args:
+        Nenhum.
+
+    Returns:
+        None: A funcao permanece no menu ate o usuario escolher sair.
+    """
     hub_aberto = True
     while hub_aberto:
         print("=" * 15, "H U B", "=" * 15)

@@ -3,6 +3,15 @@ import criptografia
 from LOGS_VOTAÇÃO import registrar_abertura, registrar_acesso_negado 
 
 def abrir_votacao():
+    """
+    Autentica um mesario, zera os votos anteriores e libera a votacao.
+
+    Args:
+        Nenhum.
+
+    Returns:
+        bool: True quando a votacao e aberta; False quando a validacao falha.
+    """
     conexao, cursor = conectar_bd()
 
     print("=" * 10, "ABERTURA DA VOTACAO", "=" * 10)

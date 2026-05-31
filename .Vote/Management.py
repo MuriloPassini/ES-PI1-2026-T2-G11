@@ -4,6 +4,15 @@ from cadastro_eleitor import menu_eleitores
 
 
 def iniciar_management():
+    """
+    Exibe o menu administrativo e chama as funcoes de eleitores e candidatos.
+
+    Args:
+        Nenhum.
+
+    Returns:
+        None: A funcao apenas controla a navegacao do menu administrativo.
+    """
     gerenciamento_aberto = True
     while gerenciamento_aberto:
         print("=" * 15, "G E R E N C I A M E N T O", "=" * 15)

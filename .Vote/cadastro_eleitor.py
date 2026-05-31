@@ -6,6 +6,15 @@ import criptografia
 
 
 def mostrar_eleitor(eleitor):
+    """
+    Mostra os dados principais de um eleitor no terminal.
+
+    Args:
+        eleitor (tuple): Dados do eleitor na ordem nome, CPF criptografado, titulo e mesario.
+
+    Returns:
+        None: A funcao apenas imprime os dados formatados.
+    """
     cpf = criptografia.descriptografar(eleitor[1])
 
     print("=" * 35)
@@ -17,6 +26,15 @@ def mostrar_eleitor(eleitor):
 
 
 def listar_eleitores():
+    """
+    Lista todos os eleitores cadastrados no banco de dados.
+
+    Args:
+        Nenhum.
+
+    Returns:
+        None: A funcao imprime os eleitores encontrados ou informa que nao ha cadastro.
+    """
     conexao, cursor = conectar_bd()
 
     cursor.execute(
@@ -38,6 +56,15 @@ def listar_eleitores():
 
 
 def cadastrar_eleitor():
+    """
+    Cadastra um eleitor, gera sua chave de acesso e criptografa dados sensiveis.
+
+    Args:
+        Nenhum.
+
+    Returns:
+        None: A funcao grava o eleitor no banco e mostra o resumo do cadastro.
+    """
     conexao, cursor = conectar_bd()
 
     nome = input("Insira o nome do eleitor: ").strip()
@@ -88,6 +115,15 @@ def cadastrar_eleitor():
 
 
 def buscar_eleitor():
+    """
+    Busca eleitores por nome, titulo ou CPF informado pelo usuario.
+
+    Args:
+        Nenhum.
+
+    Returns:
+        None: A funcao imprime os resultados encontrados ou uma mensagem de aviso.
+    """
     conexao, cursor = conectar_bd()
 
     print("Escolha uma opcao para buscar o eleitor:")
@@ -145,6 +181,15 @@ def buscar_eleitor():
 
 
 def deletar_eleitor():
+    """
+    Exclui um eleitor do banco depois de buscar pelo titulo e confirmar a acao.
+
+    Args:
+        Nenhum.
+
+    Returns:
+        None: A funcao remove o eleitor apenas quando a confirmacao e positiva.
+    """
     conexao, cursor = conectar_bd()
 
     titulo_buscar = input("Digite o titulo do eleitor que deseja excluir: ").strip()
@@ -179,6 +224,15 @@ def deletar_eleitor():
 
 
 def menu_eleitores():
+    """
+    Exibe o menu de eleitores e direciona para cadastro, consulta, edicao ou exclusao.
+
+    Args:
+        Nenhum.
+
+    Returns:
+        None: A funcao controla o menu ate o usuario escolher sair.
+    """
     executando = True
     while executando:
         print("\n" + "=" * 30)

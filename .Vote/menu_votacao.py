@@ -5,6 +5,15 @@ from resultado_votacao import menu_resultados
 from LOGS_VOTAÇÃO import menu_auditoria
 
 def iniciar_menu_votacao():
+    """
+    Exibe o menu da area de votacao e direciona para votar, auditar ou consultar resultados.
+
+    Args:
+        Nenhum.
+
+    Returns:
+        None: A funcao controla o menu ate o usuario escolher voltar.
+    """
     menu_votacao_aberto = True
     while menu_votacao_aberto:
         print("=" * 10, " V O T A Ç Ã O ", "=" * 10)

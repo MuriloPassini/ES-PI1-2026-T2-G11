@@ -1,4 +1,13 @@
 def validacaocpf(cpf):
+    """
+    Valida um CPF pelo tamanho, repeticao de digitos e digitos verificadores.
+
+    Args:
+        cpf (str): CPF informado pelo usuario, apenas com numeros.
+
+    Returns:
+        bool: True se o CPF for valido, False caso contrario.
+    """
     cpf = cpf.strip()
 
     if len(cpf) != 11 or not cpf.isdigit() or len(set(cpf)) == 1:

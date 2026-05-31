@@ -4,6 +4,15 @@ from banco import conectar_bd, fechar_bd
 
 
 def listar():
+    """
+    Lista todos os candidatos cadastrados no banco de dados.
+
+    Args:
+        Nenhum.
+
+    Returns:
+        None: A funcao apenas imprime os candidatos encontrados.
+    """
     conexao, cursor = conectar_bd()
 
     cursor.execute("SELECT nome, numero, partido FROM candidatos")
@@ -19,6 +28,15 @@ def listar():
 
 
 def cadastrar():
+    """
+    Cadastra um candidato depois de validar nome, numero e partido.
+
+    Args:
+        Nenhum.
+
+    Returns:
+        None: A funcao grava o candidato no banco ou mostra uma mensagem de erro.
+    """
     conexao, cursor = conectar_bd()
 
     nome_candidato = input("Digite o seu nome de candidato: ").strip()
@@ -56,6 +74,15 @@ def cadastrar():
 
 
 def buscar():
+    """
+    Busca candidatos por nome, numero ou partido informado pelo usuario.
+
+    Args:
+        Nenhum.
+
+    Returns:
+        None: A funcao imprime os candidatos encontrados ou uma mensagem de aviso.
+    """
     conexao, cursor = conectar_bd()
 
     print("Escolha uma opcao para buscar o(s) candidato(s):")
@@ -104,6 +131,15 @@ def buscar():
 
 
 def deletarcandi():
+    """
+    Exclui um candidato do banco depois de buscar pelo numero e confirmar a acao.
+
+    Args:
+        Nenhum.
+
+    Returns:
+        None: A funcao remove o candidato apenas quando a confirmacao e positiva.
+    """
     conexao, cursor = conectar_bd()
 
     numero_busca = input("Digite o numero do candidato que deseja excluir: ").strip()
@@ -134,6 +170,15 @@ def deletarcandi():
 
 
 def menu_candidatos():
+    """
+    Exibe o menu de candidatos e chama cadastro, listagem, busca ou exclusao.
+
+    Args:
+        Nenhum.
+
+    Returns:
+        None: A funcao controla o menu ate o usuario escolher sair.
+    """
     executando = True
     while executando:
         print("\n" + "=" * 30)
