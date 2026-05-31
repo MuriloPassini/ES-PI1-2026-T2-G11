@@ -1,5 +1,6 @@
 from datetime import datetime
 import random
+from LOGS_VOTAÇÃO import registrar_acesso_negado, registrar_voto_duplo, registrar_voto_sucesso, registrar_protocolo
 
 from banco import conectar_bd, fechar_bd
 import criptografia
@@ -15,6 +16,9 @@ def gerar_protocolo(numero_candidato):
     for i in range(5):
         digito1 += random.choice(digitos)
     return "V" + letra1 + letra2 + "26" + numero_candidato + digito1
+
+
+
 
 def votacao():
     conexao, cursor = conectar_bd()
@@ -55,11 +59,13 @@ def votacao():
     chave_banco = criptografia.descriptografar(eleitor[2])
 
     if cpf_banco[:4] != cpf_inicio or chave_banco != chave_de_acesso:
+        registrar_acesso_negado()
         print("Dados invalidos!")
         fechar_bd(conexao, cursor)
         return
 
     if eleitor[3]:
+        registrar_voto_duplo()
         print("Esse eleitor ja realizou a votacao!")
         fechar_bd(conexao, cursor)
         return
@@ -105,7 +111,8 @@ def votacao():
     cursor.execute("INSERT INTO votos (protocolo, titulo_eleitor, numero_candidato, data_hora) VALUES (%s, %s, %s, %s)", (protocolo, titulo_eleitor, numero_candidato, data_hora))
     cursor.execute("UPDATE eleitores SET ja_votou = TRUE WHERE titulo_eleitor = %s", (titulo_eleitor,))
     conexao.commit()
-
+    registrar_voto_sucesso()
+    registrar_protocolo(protocolo)
     print("")
     print("Voto confirmado com sucesso!")
     #verificar se foi nulo
@@ -118,4 +125,3 @@ def votacao():
     print("")
 
     fechar_bd(conexao, cursor)
-
