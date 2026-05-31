@@ -108,7 +108,7 @@ def votacao():
     protocolo_criptografado = criptografia.criptografar(protocolo)
     data_hora = datetime.now()
 
-    cursor.execute("INSERT INTO votos (protocolo, titulo_eleitor, numero_candidato, data_hora) VALUES (%s, %s, %s, %s)", (protocolo, titulo_eleitor, numero_candidato, data_hora))
+    cursor.execute("INSERT INTO votos (protocolo, numero_candidato, data_hora) VALUES (%s, %s, %s)", (protocolo, numero_candidato, data_hora))
     cursor.execute("UPDATE eleitores SET Ja_votou = TRUE WHERE Titulo_de_eleitor = %s", (titulo_eleitor,))
     conexao.commit()
     registrar_voto_sucesso()
