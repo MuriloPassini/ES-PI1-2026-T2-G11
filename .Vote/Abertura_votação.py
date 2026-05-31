@@ -27,6 +27,7 @@ def abrir_votacao():
 
     if resultado is None:
         print("\nERRO! Validacao falhou.")
+        registrar_acesso_negado()
         fechar_bd(conexao, cursor)
         return False
 
@@ -36,11 +37,13 @@ def abrir_votacao():
 
     if cpf_banco[:4] != cpf or chave_banco != chave:
         print("\nERRO! Validacao falhou.")
+        registrar_acesso_negado()
         fechar_bd(conexao, cursor)
         return False
 
     if mesario_banco != "S":
         print("\nERRO! Usuario nao esta cadastrado como mesario.")
+        registrar_acesso_negado()
         fechar_bd(conexao, cursor)
         return False
 
@@ -50,6 +53,7 @@ def abrir_votacao():
     cursor.execute("DELETE FROM votos")
     cursor.execute("UPDATE Eleitores SET Ja_votou = FALSE")
     conexao.commit()
+    registrar_abertura()
 
     cursor.execute("SELECT nome, numero FROM candidatos")
     candidatos = cursor.fetchall()
