@@ -1,5 +1,5 @@
 from Management import iniciar_management
-from menu_votacao import iniciar_menu_votacao()
+from menu_votacao import iniciar_menu_votacao
 
 
 def iniciar_hub():
