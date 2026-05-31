@@ -1,92 +1,91 @@
-import criptografia
-from banco import conectar_bd, fechar_bd
+from datetime import datetime
+from pathlib import Path
 
+ARQUIVO_LOG = Path(__file__).resolve().parent / "logs_ocorrencias.txt"
+ARQUIVO_PROTOCOLOS = Path(__file__).resolve().parent / "protocolos.txt"
 
-logs_ocorrencias = []
-protocolos_votacao = []
+def registrar_protocolo(protocolo):
+    with open(ARQUIVO_PROTOCOLOS, "a", encoding="utf-8") as arquivo:
+        arquivo.write(f"{protocolo}\n")
 
+def registrar_log(descricao):
+    data_hora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-def registrar_log(evento):
-    logs_ocorrencias.append(evento)
-    print("\nLog registrado com sucesso!")
+    with open(ARQUIVO_LOG, "a", encoding="utf-8") as arquivo:
+        arquivo.write(f"[{data_hora}] {descricao}\n")
 
+def registrar_abertura():
+    registrar_log(
+        "ABERTURA: Votação iniciada com sucesso. Total de votos zerado."
+    )
+
+def registrar_acesso_negado():
+    registrar_log(
+        "ALERTA: Tentativa de acesso negado"
+    )
+
+def registrar_voto_duplo():
+    registrar_log(
+        "ALERTA: Tentativa de voto duplo"
+    )
+
+def registrar_voto_sucesso():
+    registrar_log(
+        "SUCESSO: Voto realizado com sucesso"
+    )
+
+def registrar_encerramento():
+    registrar_log(
+        "ENCERRAMENTO: Votação finalizada com sucesso."
+    )
 
 def exibir_logs():
-    print("\nLOGS DE OCORRENCIAS")
+    print("\n===== LOGS DE OCORRÊNCIAS =====\n")
 
-    if len(logs_ocorrencias) == 0:
-        print("Nenhum log encontrado.")
-        return
+    try:
+        with open(ARQUIVO_LOG, "r", encoding="utf-8") as arquivo:
+            conteudo = arquivo.read()
 
-    for indice, log in enumerate(logs_ocorrencias, start=1):
-        print(f"{indice}. {log}")
+            if conteudo.strip():
+                print(conteudo)
+            else:
+                print("Nenhum log registrado.")
 
-
-def gerar_protocolo(nome_eleitor):
-    protocolo = "PROTOCOLO-" + str(len(protocolos_votacao) + 1)
-
-    registro = {
-        "eleitor": nome_eleitor,
-        "protocolo": protocolo
-    }
-    protocolos_votacao.append(registro)
-
-    registrar_log(f"Voto registrado para {nome_eleitor}")
-    print(f"\nProtocolo gerado: {protocolo}")
-
+    except FileNotFoundError:
+        print("Arquivo de log não encontrado.")
 
 def exibir_protocolos():
-    print("\nPROTOCOLOS DE VOTACAO")
+    print("\n===== PROTOCOLOS DE VOTAÇÃO =====\n")
 
-    conexao, cursor = conectar_bd()
+    try:
+        with open(ARQUIVO_PROTOCOLOS, "r", encoding="utf-8") as arquivo:
+            protocolos = arquivo.readlines()
 
-    cursor.execute(
-        """
-        SELECT protocolo, numero_candidato, data_hora
-        FROM votos
-        ORDER BY data_hora
-        """
-    )
-    votos = cursor.fetchall()
+            if not protocolos:
+                print("Nenhum protocolo registrado.")
+                return
 
-    if len(votos) == 0:
-        print("Nenhum protocolo encontrado.")
-        fechar_bd(conexao, cursor)
-        return
+            for protocolo in sorted(protocolos):
+                print(protocolo.strip())
 
-    for voto in votos:
-        protocolo = criptografia.descriptografar(voto[0])
-        print(f"Candidato: {voto[1]} | Protocolo: {protocolo}")
-
-    fechar_bd(conexao, cursor)
-
-
+    except FileNotFoundError:
+        print("Arquivo de protocolos não encontrado.")
+        
 def menu_auditoria():
-    auditoria_aberta = True
-    while auditoria_aberta:
-        print("\nSISTEMA DE AUDITORIA DA VOTACAO")
-        print("1 - Registrar Log")
-        print("2 - Exibir Logs")
-        print("3 - Gerar Protocolo")
-        print("4 - Exibir Protocolos")
-        print("5 - Encerrar Sistema")
+    while True:
+        print("\n===== auditoria =====")
+        print("1 - Exibir Logs")
+        print("2 - Exibir Protocolos")
+        print("0 - Voltar")
 
-        opcao = input("\nDigite uma opcao: ").strip()
+        opcao = input("\nDigite o numero da opcao desejada: ")
 
-        if opcao == "1":
-            evento = input("Digite o evento ocorrido: ")
-            registrar_log(evento)
-        elif opcao == "2":
-            exibir_logs()
-        elif opcao == "3":
-            nome = input("Digite o nome do eleitor: ")
-            gerar_protocolo(nome)
-        elif opcao == "4":
-            exibir_protocolos()
-        elif opcao == "5":
-            registrar_log("Sistema encerrado.")
-            print("\nSistema encerrado com sucesso!")
-            auditoria_aberta = False
-        else:
-            print("\nOpcao invalida. Digite uma das opcoes validas.")
-
+        match opcao:
+            case "1":
+                exibir_logs()
+            case "2":
+                exibir_protocolos()
+            case "0":
+                break
+            case _:
+                print("Opção inválida. Digite 1, 2 ou 0.")
