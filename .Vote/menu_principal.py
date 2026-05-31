@@ -1,5 +1,5 @@
 from Management import iniciar_management
-from voting_sys import votacao
+from menu_votacao import iniciar_menu_votacao()
 
 
 def iniciar_hub():
@@ -19,13 +19,13 @@ def iniciar_hub():
             case "1":
                 iniciar_management()
             case "2":
-                votacao()
+                iniciar_menu_votacao()
             case "0":
                 print("Saindo...")
                 hub_aberto = False
             case _:
                 print("Opcao invalida. Por favor, tente novamente.")
 
+
 if __name__ == "__main__":
     iniciar_hub()
-
