@@ -59,14 +59,14 @@ def votacao():
     chave_banco = criptografia.descriptografar(eleitor[2])
 
     if cpf_banco[:4] != cpf_inicio or chave_banco != chave_de_acesso:
-        registrar_acesso_negado()
         print("Dados invalidos!")
+        registrar_acesso_negado()
         fechar_bd(conexao, cursor)
         return
 
     if eleitor[3]:
-        registrar_voto_duplo()
         print("Esse eleitor ja realizou a votacao!")
+        registrar_voto_duplo()
         fechar_bd(conexao, cursor)
         return
 
@@ -109,7 +109,7 @@ def votacao():
     data_hora = datetime.now()
 
     cursor.execute("INSERT INTO votos (protocolo, titulo_eleitor, numero_candidato, data_hora) VALUES (%s, %s, %s, %s)", (protocolo, titulo_eleitor, numero_candidato, data_hora))
-    cursor.execute("UPDATE eleitores SET ja_votou = TRUE WHERE titulo_eleitor = %s", (titulo_eleitor,))
+    cursor.execute("UPDATE eleitores SET Ja_votou = TRUE WHERE Titulo_de_eleitor = %s", (titulo_eleitor,))
     conexao.commit()
     registrar_voto_sucesso()
     registrar_protocolo(protocolo)
