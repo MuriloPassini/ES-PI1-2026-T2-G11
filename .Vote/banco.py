@@ -13,10 +13,10 @@ def conectar_bd():
         tuple: Conexao ativa com o MySQL e cursor para executar comandos SQL.
     """
     conexao = mysql.connector.connect(
-        host=os.getenv("VOTE_DB_HOST", "localhost"),
-        user=os.getenv("VOTE_DB_USER", "root"),
-        password=os.getenv("VOTE_DB_PASSWORD", "198765432AbGF"),
-        database=os.getenv("VOTE_DB_NAME", "testes")
+        host=os.getenv("VOTE_DB_HOST", "BD-ACD"),
+        user=os.getenv("VOTE_DB_USER", "BD120226828"),
+        password=os.getenv("VOTE_DB_PASSWORD", "Iwgyx6"),
+        database=os.getenv("VOTE_DB_NAME", "BD120226828")
     )
     cursor = conexao.cursor()
     return conexao, cursor
