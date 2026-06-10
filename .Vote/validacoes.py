@@ -12,32 +12,36 @@ def validacaotitulo(titulo):
         return False
 
     numeros = list(map(int, titulo))
-    estado = numeros[8] * 10 + numeros[9]  # código do estado (01=SP, 02=MG)
+    estado = numeros[8] * 10 + numeros[9]  # codigo da UF
+
+    if estado < 1 or estado > 28:
+        return False
 
     soma1 = 0
-    peso = 2
     for i in range(8):
-        soma1 += numeros[i] * peso
-        peso += 1
+        soma1 += numeros[i] * (i + 2)
 
     resto1 = soma1 % 11
-    if estado in (1, 2):  # SP ou MG
-        digito1 = 1 if resto1 == 0 else resto1
+    if resto1 == 10:
+        digito1 = 0
     else:
-        digito1 = 0 if resto1 in (0, 1) else resto1
+        digito1 = resto1
+
+    if estado in (1, 2) and resto1 == 0:
+        digito1 = 1
 
     soma2 = numeros[8] * 7 + numeros[9] * 8 + digito1 * 9
     resto2 = soma2 % 11
-
-    if estado in (1, 2):  # SP ou MG
-        digito2 = 1 if resto2 == 0 else resto2
+    if resto2 == 10:
+        digito2 = 0
     else:
-        digito2 = 0 if resto2 in (0, 1) else resto2
+        digito2 = resto2
 
-    if digito1 == numeros[10] and digito2 == numeros[11]:
-        return True
-    else:
-        return False
+    if estado in (1, 2) and resto2 == 0:
+        digito2 = 1
+
+    return digito1 == numeros[10] and digito2 == numeros[11]
+
 
 def validacaocpf(cpf):
     """
