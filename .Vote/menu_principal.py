@@ -19,7 +19,6 @@ def iniciar_hub():
         print(f'{"Selecione uma opcao para continuar:":^35}')
         print("1. Gerenciamento")
         print("2. Votação")
-        print("3. Auditoria")
         print("0. Sair")
 
         escolha = input("Digite o numero da opcao desejada: ").strip()
